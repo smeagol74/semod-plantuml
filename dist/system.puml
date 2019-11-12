@@ -132,11 +132,11 @@ skinparam Arrow {
 skinparam rectangle {
     Shadowing true
     RoundCorner 6
-    BorderColor<<system-system>> darkgray
-    BackgroundColor<<system-system>> lightgray
-    BorderColor<<system-our-system>> darkblue
+    BorderColor<<system-system-other>> darkgray
+    BackgroundColor<<system-system-other>> lightgray
     BorderColor<<system-system-of-interest>> darkred
-    BackgroundColor<<system-our-system>> lightblue
+    BorderColor<<system-system-our>> darkblue
+    BackgroundColor<<system-system-our>> lightblue
     BorderColor<<system-placeholder>> darkblue
     BackgroundColor<<system-placeholder>> #eeeeee
     BorderStyle<<system-placeholder>> dotted
@@ -146,20 +146,19 @@ skinparam actor<<system-system-role>> {
     BackgroundColor lightgray
 }
 
-hide <<system-system>> stereotype
+hide <<system-system-other>> stereotype
 hide <<system-system-of-interest>> stereotype
-hide <<system-resource>> stereotype
-hide <<system-placeholder>> stereotype
-hide <<system-our-system>> stereotype
+hide <<system-system-our>> stereotype
 hide <<system-system-role>> stereotype
+hide <<system-placeholder>> stereotype
 
 ' Elements
 ' ##################################
 'System Elements
-!define System_System(e_alias, e_label) rectangle "e_label" <<system-system>> as e_alias
+!define System_SystemOther(e_alias, e_label) rectangle "e_label" <<system-system-other>> as e_alias
 !define System_SystemOfInterest(e_alias, e_label) rectangle "e_label" <<system-system-of-interest>> as e_alias
-!define System_OurSystem(e_alias, e_label) rectangle "e_label" <<system-our-system>> as e_alias
-!define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
+!define System_SystemOur(e_alias, e_label) rectangle "e_label" <<system-system-our>> as e_alias
 !define System_SystemRole(e_alias, e_label) actor "e_label" <<system-system-role>> as e_alias
+!define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
 
 

@@ -2,10 +2,10 @@
 
 !include ../src/semod.puml
 
-System_System(S0, 'Система 0\n[чужая система]')
+System_SystemOther(S0, 'Система 0\n[чужая система]')
 System_SystemOfInterest(S1, 'Система 1\n[целевая система]')
-System_OurSystem(S2, 'Система 2\n[наша система]')
-System_System(S3, 'Конкурент\n[чужая система]')
+System_SystemOur(S2, 'Система 2\n[наша система]')
+System_SystemOther(S3, 'Конкурент\n[чужая система]')
 System_SystemRole(SR4, 'Делатель\n[системная роль]')
 System_Placeholder(SP1, 'Место для системы')
 
