@@ -1,6 +1,6 @@
 @startuml
 
-!include ../system.puml
+!include ../src/semod.puml
 
 System_System(S0, 'Система 0\n[чужая система]')
 System_SystemOfInterest(S1, 'Система 1\n[целевая система]')
