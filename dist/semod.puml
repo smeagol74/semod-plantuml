@@ -284,33 +284,33 @@ skinparam usecase {
 skinparam rectangle {
     Shadowing true
     RoundCorner 6
-    BorderColor<<system-system-other>> darkgray
-    BackgroundColor<<system-system-other>> lightgray
-    BorderColor<<system-system-of-interest>> darkred
-    BorderColor<<system-system-our>> darkblue
-    BackgroundColor<<system-system-our>> lightblue
+    BorderColor<<system-other>> darkgray
+    BackgroundColor<<system-other>> lightgray
+    BorderColor<<system-of-interest>> darkred
+    BorderColor<<system-our>> darkblue
+    BackgroundColor<<system-our>> lightblue
     BorderColor<<system-placeholder>> darkblue
     BackgroundColor<<system-placeholder>> #eeeeee
     BorderStyle<<system-placeholder>> dotted
 }
-skinparam actor<<system-system-role>> {
+skinparam actor<<system-role>> {
     BorderColor #777777
     BackgroundColor lightgray
 }
 
-hide <<system-system-other>> stereotype
-hide <<system-system-of-interest>> stereotype
-hide <<system-system-our>> stereotype
-hide <<system-system-role>> stereotype
+hide <<system-other>> stereotype
+hide <<system-of-interest>> stereotype
+hide <<system-our>> stereotype
+hide <<system-role>> stereotype
 hide <<system-placeholder>> stereotype
 
 ' Elements
 ' ##################################
 'System Elements
-!define System_SystemOther(e_alias, e_label) rectangle "e_label" <<system-system-other>> as e_alias
-!define System_SystemOfInterest(e_alias, e_label) rectangle "e_label" <<system-system-of-interest>> as e_alias
-!define System_SystemOur(e_alias, e_label) rectangle "e_label" <<system-system-our>> as e_alias
-!define System_SystemRole(e_alias, e_label) actor "e_label" <<system-system-role>> as e_alias
+!define System_Other(e_alias, e_label) rectangle "e_label" <<system-other>> as e_alias
+!define System_OfInterest(e_alias, e_label) rectangle "e_label" <<system-of-interest>> as e_alias
+!define System_Our(e_alias, e_label) rectangle "e_label" <<system-our>> as e_alias
+!define System_Role(e_alias, e_label) actor "e_label" <<system-role>> as e_alias
 !define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
 
 
