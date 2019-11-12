@@ -1,5 +1,5 @@
 @startuml Example-Stakeholder
-!include ../semod.puml
+!include ../src/semod.puml
 
 Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")
 

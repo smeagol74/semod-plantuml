@@ -1,5 +1,5 @@
 @startuml
-!include ../semod.puml
+!include ../src/semod.puml
 
 title Archimate Example - Relationships
 
