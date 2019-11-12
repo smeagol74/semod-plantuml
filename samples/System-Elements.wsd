@@ -1,0 +1,20 @@
+@startuml
+
+!include ../system.puml
+
+System_System(S0, 'Система 0\n[чужая система]')
+System_SystemOfInterest(S1, 'Система 1\n[целевая система]')
+System_OurSystem(S2, 'Система 2\n[наша система]')
+System_System(S3, 'Конкурент\n[чужая система]')
+System_SystemRole(SR4, 'Делатель\n[системная роль]')
+System_Placeholder(SP1, 'Место для системы')
+
+Rel_Aggregation(S0, S1, 'состоит из')
+Rel_Aggregation(S1, SP1, 'состоит из')
+Rel_Aggregation(S1, SR4, 'состоит из')
+Rel_Realization_Up(S2, SP1, 'воплощает')
+Rel_Realization_Up(S3, SP1, 'воплощает')
+
+Lay_R(S3, S2)
+
+@enduml

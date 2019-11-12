@@ -1,0 +1,35 @@
+' Styling
+' ##################################
+
+skinparam rectangle {
+    Shadowing true
+    RoundCorner 6
+    BorderColor<<system-system>> darkgray
+    BackgroundColor<<system-system>> lightgray
+    BorderColor<<system-our-system>> darkblue
+    BorderColor<<system-system-of-interest>> darkred
+    BackgroundColor<<system-our-system>> lightblue
+    BorderColor<<system-placeholder>> darkblue
+    BackgroundColor<<system-placeholder>> #eeeeee
+    BorderStyle<<system-placeholder>> dotted
+}
+skinparam actor<<system-system-role>> {
+    BorderColor #777777
+    BackgroundColor lightgray
+}
+
+hide <<system-system>> stereotype
+hide <<system-system-of-interest>> stereotype
+hide <<system-resource>> stereotype
+hide <<system-placeholder>> stereotype
+hide <<system-our-system>> stereotype
+hide <<system-system-role>> stereotype
+
+' Elements
+' ##################################
+'System Elements
+!define System_System(e_alias, e_label) rectangle "e_label" <<system-system>> as e_alias
+!define System_SystemOfInterest(e_alias, e_label) rectangle "e_label" <<system-system-of-interest>> as e_alias
+!define System_OurSystem(e_alias, e_label) rectangle "e_label" <<system-our-system>> as e_alias
+!define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
+!define System_SystemRole(e_alias, e_label) actor "e_label" <<system-system-role>> as e_alias
