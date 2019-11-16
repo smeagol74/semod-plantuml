@@ -286,12 +286,16 @@ skinparam rectangle {
     RoundCorner 6
     BorderColor<<system-other>> darkgray
     BackgroundColor<<system-other>> lightgray
-    BorderColor<<system-of-interest>> darkred
-    BorderColor<<system-our>> darkblue
-    BackgroundColor<<system-our>> lightblue
-    BorderColor<<system-placeholder>> darkblue
+    BorderColor<<system-of-interest>> #504661
+    BackgroundColor<<system-of-interest>> #B19CD9
+    DiagonalCorner<<system-of-interest>> 12
+    BorderColor<<system-our>> #4c6263
+    BackgroundColor<<system-our>> #A9DCDF
+    BorderColor<<system-placeholder>> black
     BackgroundColor<<system-placeholder>> #eeeeee
     BorderStyle<<system-placeholder>> dotted
+    BackgroundColor<<system-support>> #FFFF00
+    BorderColor<<system-support>> black
 }
 skinparam actor<<system-role>> {
     BorderColor #777777
@@ -303,6 +307,7 @@ hide <<system-of-interest>> stereotype
 hide <<system-our>> stereotype
 hide <<system-role>> stereotype
 hide <<system-placeholder>> stereotype
+hide <<system-support>> stereotype
 
 ' Elements
 ' ##################################
@@ -312,5 +317,6 @@ hide <<system-placeholder>> stereotype
 !define System_Our(e_alias, e_label) rectangle "e_label" <<system-our>> as e_alias
 !define System_Role(e_alias, e_label) actor "e_label" <<system-role>> as e_alias
 !define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
+!define System_Support(e_alias, e_label) rectangle "e_label" <<system-support>> as e_alias
 
 
