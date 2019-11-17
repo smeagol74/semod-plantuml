@@ -8,7 +8,7 @@ System_Our(S2, 'Система 2\n(наша система)')
 System_Other(S3, 'Конкурент\n(чужая система)')
 System_Role(SR4, 'Делатель\n(системная роль)')
 System_Placeholder(SP1, 'Место для системы')
-System_Support(SS1, 'Система 3\n(обслуживающая система)')
+System_Enabling(SS1, 'Система 3\n(обслуживающая система)')
 
 Rel_Composition(S0, S1, 'состоит из')
 Rel_Composition(S1, SP1, 'состоит из')
