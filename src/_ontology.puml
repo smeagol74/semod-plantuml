@@ -1,0 +1,16 @@
+' Styling
+' ##################################
+
+skinparam rectangle {
+    Shadowing true
+    RoundCorner 6
+    BorderColor<<ontology-concept>> black
+    BackgroundColor<<ontology-concept>> white
+}
+
+hide <<ontology-concept>> stereotype
+
+' Elements
+' ##################################
+'Ontology Elements
+!define Ontology_Concept(e_alias, e_label) rectangle "e_label" <<ontology-concept>> as e_alias

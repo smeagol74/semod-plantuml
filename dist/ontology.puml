@@ -132,43 +132,15 @@ skinparam Arrow {
 skinparam rectangle {
     Shadowing true
     RoundCorner 6
-    BorderColor<<system-other>> darkgray
-    BackgroundColor<<system-other>> lightgray
-    BorderColor<<system-of-interest>> #504661
-    BackgroundColor<<system-supra-of-interest>> #cab1f5
-    DiagonalCorner<<system-supra-of-interest>> 12
-    BackgroundColor<<system-of-interest>> #B19CD9
-    DiagonalCorner<<system-of-interest>> 12
-    BorderColor<<system-our>> #4c6263
-    BackgroundColor<<system-our>> #A9DCDF
-    BorderColor<<system-placeholder>> black
-    BackgroundColor<<system-placeholder>> #eeeeee
-    BorderStyle<<system-placeholder>> dotted
-    BackgroundColor<<system-enabling>> #FFFF00
-    BorderColor<<system-enabling>> black
-}
-skinparam actor<<system-role>> {
-    BorderColor #777777
-    BackgroundColor lightgray
+    BorderColor<<ontology-concept>> black
+    BackgroundColor<<ontology-concept>> white
 }
 
-hide <<system-other>> stereotype
-hide <<system-of-interest>> stereotype
-hide <<system-supra-of-interest>> stereotype
-hide <<system-our>> stereotype
-hide <<system-role>> stereotype
-hide <<system-placeholder>> stereotype
-hide <<system-enabling>> stereotype
+hide <<ontology-concept>> stereotype
 
 ' Elements
 ' ##################################
-'System Elements
-!define System_Other(e_alias, e_label) rectangle "e_label" <<system-other>> as e_alias
-!define System_SupraOfInterest(e_alias, e_label) rectangle "e_label" <<system-supra-of-interest>> as e_alias
-!define System_OfInterest(e_alias, e_label) rectangle "e_label" <<system-of-interest>> as e_alias
-!define System_Our(e_alias, e_label) rectangle "e_label" <<system-our>> as e_alias
-!define System_Role(e_alias, e_label) actor "e_label" <<system-role>> as e_alias
-!define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
-!define System_Enabling(e_alias, e_label) rectangle "e_label" <<system-enabling>> as e_alias
+'Ontology Elements
+!define Ontology_Concept(e_alias, e_label) rectangle "e_label" <<ontology-concept>> as e_alias
 
 
