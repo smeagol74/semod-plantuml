@@ -2,4 +2,3 @@
 !include _layout.puml
 !include _relationships.puml
 !include _system.puml
-!include _essence.puml

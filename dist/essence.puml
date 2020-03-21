@@ -192,44 +192,44 @@ skinparam storage {
   DefaultTextAlignment<<essence_generic>> center
 }
 
-sprite $alpha sprites.zip-alpha.png
-sprite $kernel sprites.zip-kernel_20.png
-sprite $pattern sprites.zip-pattern.png
-sprite $state sprites.zip-state.png
-sprite $level_of_detail sprites.zip-level_of_detail_20.png
-sprite $practice sprites.zip-practice.png
-sprite $activity sprites.zip-activity.png
-sprite $activity_space sprites.zip-activity_space.png
-sprite $competency sprites.zip-competency.png
-sprite $resource sprites.zip-resource.png
-sprite $work_product sprites.zip-work_product.png
+sprite $alpha /usr/local/share/semod/sprites/essence/alpha.png
+sprite $kernel /usr/local/share/semod/sprites/essence/kernel_20.png
+sprite $pattern /usr/local/share/semod/sprites/essence/pattern.png
+sprite $state /usr/local/share/semod/sprites/essence/state.png
+sprite $level_of_detail /usr/local/share/semod/sprites/essence/level_of_detail_20.png
+sprite $practice /usr/local/share/semod/sprites/essence/practice.png
+sprite $activity /usr/local/share/semod/sprites/essence/activity.png
+sprite $activity_space /usr/local/share/semod/sprites/essence/activity_space.png
+sprite $competency /usr/local/share/semod/sprites/essence/competency.png
+sprite $resource /usr/local/share/semod/sprites/essence/resource.png
+sprite $work_product /usr/local/share/semod/sprites/essence/work_product.png
 
-sprite $alpha_customer sprites.zip-alpha_customer.png
-sprite $activity_customer sprites.zip-activity_customer.png
-sprite $activity_space_customer sprites.zip-activity_space_customer.png
-sprite $competency_customer sprites.zip-competency_customer.png
-sprite $practice_customer sprites.zip-practice_customer.png
-sprite $pattern_customer sprites.zip-pattern_customer.png
-sprite $resource_customer sprites.zip-resource_customer.png
-sprite $work_product_customer sprites.zip-work_product_customer.png
+sprite $alpha_customer /usr/local/share/semod/sprites/essence/alpha_customer.png
+sprite $activity_customer /usr/local/share/semod/sprites/essence/activity_customer.png
+sprite $activity_space_customer /usr/local/share/semod/sprites/essence/activity_space_customer.png
+sprite $competency_customer /usr/local/share/semod/sprites/essence/competency_customer.png
+sprite $practice_customer /usr/local/share/semod/sprites/essence/practice_customer.png
+sprite $pattern_customer /usr/local/share/semod/sprites/essence/pattern_customer.png
+sprite $resource_customer /usr/local/share/semod/sprites/essence/resource_customer.png
+sprite $work_product_customer /usr/local/share/semod/sprites/essence/work_product_customer.png
 
-sprite $alpha_solution sprites.zip-alpha_solution.png
-sprite $activity_solution sprites.zip-activity_solution.png
-sprite $activity_space_solution sprites.zip-activity_space_solution.png
-sprite $competency_solution sprites.zip-competency_solution.png
-sprite $practice_solution sprites.zip-practice_solution.png
-sprite $pattern_solution sprites.zip-pattern_solution.png
-sprite $resource_solution sprites.zip-resource_solution.png
-sprite $work_product_solution sprites.zip-work_product_solution.png
+sprite $alpha_solution /usr/local/share/semod/sprites/essence/alpha_solution.png
+sprite $activity_solution /usr/local/share/semod/sprites/essence/activity_solution.png
+sprite $activity_space_solution /usr/local/share/semod/sprites/essence/activity_space_solution.png
+sprite $competency_solution /usr/local/share/semod/sprites/essence/competency_solution.png
+sprite $practice_solution /usr/local/share/semod/sprites/essence/practice_solution.png
+sprite $pattern_solution /usr/local/share/semod/sprites/essence/pattern_solution.png
+sprite $resource_solution /usr/local/share/semod/sprites/essence/resource_solution.png
+sprite $work_product_solution /usr/local/share/semod/sprites/essence/work_product_solution.png
 
-sprite $alpha_endeavor sprites.zip-alpha_endeavor.png
-sprite $activity_endeavor sprites.zip-activity_endeavor.png
-sprite $activity_space_endeavor sprites.zip-activity_space_endeavor.png
-sprite $competency_endeavor sprites.zip-competency_endeavor.png
-sprite $practice_endeavor sprites.zip-practice_endeavor.png
-sprite $pattern_endeavor sprites.zip-pattern_endeavor.png
-sprite $resource_endeavor sprites.zip-resource_endeavor.png
-sprite $work_product_endeavor sprites.zip-work_product_endeavor.png
+sprite $alpha_endeavor /usr/local/share/semod/sprites/essence/alpha_endeavor.png
+sprite $activity_endeavor /usr/local/share/semod/sprites/essence/activity_endeavor.png
+sprite $activity_space_endeavor /usr/local/share/semod/sprites/essence/activity_space_endeavor.png
+sprite $competency_endeavor /usr/local/share/semod/sprites/essence/competency_endeavor.png
+sprite $practice_endeavor /usr/local/share/semod/sprites/essence/practice_endeavor.png
+sprite $pattern_endeavor /usr/local/share/semod/sprites/essence/pattern_endeavor.png
+sprite $resource_endeavor /usr/local/share/semod/sprites/essence/resource_endeavor.png
+sprite $work_product_endeavor /usr/local/share/semod/sprites/essence/work_product_endeavor.png
 
 hide <<essence_generic>><<essence_work_product>> stereotype
 hide <<essence_area>> <<essence_customer_area>> stereotype
