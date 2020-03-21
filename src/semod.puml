@@ -4,4 +4,5 @@
 !include _archimate.puml
 !include _system.puml
 !include _ontology.puml
+!include _essence.puml
 

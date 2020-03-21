@@ -21,3 +21,4 @@ build semod.puml
 build archimate.puml
 build system.puml
 build ontology.puml
+build essence.puml

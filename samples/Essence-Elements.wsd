@@ -1,0 +1,78 @@
+@startuml
+
+!include ../src/semod.puml
+
+frame Generic as FG {
+  Alpha(A0, Stakeholder)
+  Kernel(K0, Software Engineering)
+  AlphaState(S0, Milestones Agreed)
+  AlphaState(S1, Plan Agreed)
+
+  S0 -down-> S1
+
+  WorkProduct(WP0, Iteration Plan)
+  LevelOfDetail(L0, Sketch)
+  OptionalLevelOfDetail(L1, Formal Model)
+
+  L0 -down-> L1
+
+  Practice(P0, Scrum Essentials)
+
+  Activity(AC0, Sprint Retrospective)
+
+  ActivitySpace(AS0, Specify the Software)
+
+  Competency(C0, Leadership)
+
+  Pattern(PT0, Programmer <Role>)
+  PatternAssociation(PA0, Works on)
+  WorkProduct(WP1, Source code)
+  WorkProduct(WP2, Build)
+
+  Rel_Composition(PT0, PA0)
+  Rel_Association(PA0, WP1)
+  Rel_Association(PA0, WP2)
+
+  Resource(R1, Resource)
+}
+
+Customer_Area(FC, Customer Area of Concern) {
+  Customer_Alpha(C_A0, Stakeholder)
+  Customer_AlphaState(C_AS0, Bounded)
+  Customer_Activity(C_AC0, Activity)
+  Customer_ActivitySpace(C_AS0, Build the system)
+  Customer_Competency(C_C0, Leadership)
+  Customer_Practice(C_P0, Practice)
+  Customer_Pattern(C_PA0, Pattern)
+  Customer_Resource(C_R0, Resource)
+  Customer_WorkProduct(C_WP0, Work Product)
+}
+
+Solution_Area(FS, Solution Area of Concern) {
+  Solution_Alpha(S_A0, Stakeholder)
+  Solution_AlphaState(S_AS0, Bounded)
+  Solution_Activity(S_AC0, Activity)
+  Solution_ActivitySpace(S_AS0, Build the system)
+  Solution_Competency(S_C0, Leadership)
+  Solution_Practice(S_P0, Practice)
+  Solution_Pattern(S_PA0, Pattern)
+  Solution_Resource(S_R0, Resource)
+  Solution_WorkProduct(S_WP0, Work Product)
+}
+
+Endeavor_Area(FE, Endeavor Area of Concern) {
+  Endeavor_Alpha(E_A0, Stakeholder)
+  Endeavor_AlphaState(E_AS0, Bounded)
+  Endeavor_Activity(E_AC0, Activity)
+  Endeavor_ActivitySpace(E_AS0, Build the system)
+  Endeavor_Competency(E_C0, Leadership)
+  Endeavor_Practice(E_P0, Practice)
+  Endeavor_Pattern(E_PA0, Pattern)
+  Endeavor_Resource(E_R0, Resource)
+  Endeavor_WorkProduct(E_WP0, Work Product)
+}
+
+Lay_D(FG, FC)
+Lay_D(FC, FS)
+Lay_D(FS, FE)
+@enduml

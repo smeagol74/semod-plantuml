@@ -2,10 +2,10 @@
 
 !include ../src/semod.puml
 
-Ontology_Concept(C0, 'Понятие 1\n(понятие)') [[http://www.ru]]
+Concept(C0, 'Понятие 1\n(понятие)') [[http://www.ru]]
 
-Ontology_Concept(C1, 'Понятие 2\n(понятие)')
+Concept(C1, 'Понятие 2\n(понятие)')
 
-Rel_Association(C0, C1, 'использует >')
+Rel__(C0, C1, использует)
 
 @enduml

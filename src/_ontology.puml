@@ -13,4 +13,4 @@ hide <<ontology-concept>> stereotype
 ' Elements
 ' ##################################
 'Ontology Elements
-!define Ontology_Concept(e_alias, e_label) rectangle "e_label" <<ontology-concept>> as e_alias
+!define Concept(e_alias, e_label) rectangle "e_label" <<ontology-concept>> as e_alias

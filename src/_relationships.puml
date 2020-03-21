@@ -5,6 +5,16 @@
 
 !define Rel_(e_sourceAlias, e_targetAlias, e_label, e_direction="") e_sourceAlias e_direction e_targetAlias : "e_label"
 
+!define Rel__(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-->")
+!define Rel__Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
+!define Rel__Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
+!define Rel__Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
+!define Rel__Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
+!define Rel__U(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
+!define Rel__D(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
+!define Rel__L(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
+!define Rel__R(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
+
 !define Rel_Composition(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*--")
 !define Rel_Composition_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-UP-")
 !define Rel_Composition_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-DOWN-")

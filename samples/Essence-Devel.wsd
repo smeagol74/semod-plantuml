@@ -1,0 +1,44 @@
+@startuml
+!include ../src/semod.puml
+
+Customer_Area(A_C, Customer) {
+  Customer_Alpha(AO, Oportunity)
+  Customer_Alpha(AS, Stakeholders)
+}
+
+Solution_Area(A_S, Solution) {
+  Solution_Alpha(AR, Requirements)
+  Solution_Alpha(ASS, Software System)
+}
+
+Endeavor_Area(A_E, Endeavor) {
+  Endeavor_Alpha(AW, Work)
+  Endeavor_Alpha(AT, Team)
+  Endeavor_Alpha(AWW, Way of Working)
+}
+
+Lay_D(A_C, A_S)
+Lay_D(A_S, A_E)
+
+Rel__L(AS, AO, provides)
+Rel__L(AS, AR, demand)
+Rel__D(AS, ASS, use and\nconsume)
+Rel__D(AS, AT, support)
+
+Rel__D(AO, AR, focuses)
+
+Rel__D(AR, AW, scopes and\nconstrains)
+
+Rel__L(ASS, AO, helps to address)
+Rel__L(ASS, AR, fulfils)
+
+Rel__U(AW, AR, setup to address)
+Rel__R(AW, ASS, updates and changes)
+
+Rel__L(AT, AW, performs\nand plans)
+Rel__U(AT, ASS, produces)
+Rel__D(AT, AWW, applies)
+
+Rel__U(AWW, AW, guides)
+
+@enduml
