@@ -1,0 +1,76 @@
+@startuml
+
+!include ../src/semod.puml
+
+Practice(Practice, Практика\n<i>(Practice)</i>)
+
+frame "Вспомогательные материалы <i>(Support Materials)</i>" as GSupport {
+  Pattern(StateProgressions, 'Шаблоны для синхронизации\nдвижения по состояниям Альф\nнапример: Checkpoint или Milestone')
+  Pattern(ActivitiesSequence, 'Шаблоны для упорядочивания\nи фильтрации активностей')
+  Resource(Resource, Ресурс\n<i>(Resource)</i>)
+  Pattern(Pattern, Шаблон\n<i>(Pattern)</i>)
+}
+
+frame "Объекты с которыми работают <i>(Things To Work With)</i>" as GWork {
+  Alpha(Alpha, Альфа\n<i>(Alpha)</i>)
+  AlphaState(AlphaState, Состояние\n<i>(Alpha State)</i>)
+  WorkProduct(WorkProduct, Рабочий продукт\n<i>(Work Product)</i>)
+  LevelOfDetail(LevelOfDetail, Уровень детализации\n<i>(Level of Detail)</i>)
+  OptionalLevelOfDetail(OptionalLevelOfDetail, Необязательный\nуровень детализации)
+  Resource(WPResource, "Ресурсы, которые помогают\nсоздавать, изменять и управлять\nрабочими продуктами")
+}
+
+frame "Вещи которые делают <i>(Things To Do)</i>" as GToDo {
+  ActivitySpace(ActivitySpace, Место активности\n<i>(Activity Space)</i>)
+  Activity(Activity, Активность\n<i>(Activity)</i>)
+  Pattern(ActivityPatterns, Шаблоны описывающие\nальтернативные способы\nвыполнять активности)
+}
+
+frame "Необходимые навыки <i>(Skills Needed)</i>" as GSkills {
+  Competency(Competency, 'Компетентность\n<i>(Competency)</i>')
+  Pattern(CompetencyPatterns, 'Шаблоны квалифицирующие членов команты, такие как командные роли <i>(Team Roles)</i> и структура команды <i>(Team Structures)</i>.')
+}
+
+Lay_D(GToDo, GSkills)
+
+Rel__(Practice, GSupport, описана\nв терминах)
+Rel__(Practice, GWork, описана\nв терминах)
+Rel__(Practice, GToDo, описана\nв терминах)
+Rel__(Practice, GSkills, описана\nв терминах)
+
+
+Rel__U(StateProgressions, Alpha, синхронизует прогресс)
+Rel__R(StateProgressions, AlphaState, согласует множество)
+
+Rel__U(ActivitiesSequence, StateProgressions, завершаются)
+Rel__R(ActivitiesSequence, AlphaState, результируют набор)
+Rel__R(ActivitiesSequence, ActivitySpace, упорядочивают)
+
+Lay_D(ActivitiesSequence, Resource)
+Lay_D(ActivitiesSequence, Pattern)
+Lay_R(Resource, Pattern)
+
+Rel__D(Alpha, AlphaState, имеет)
+
+Rel__L(WorkProduct, Alpha, описывает)
+Rel__L(WorkProduct, AlphaState, свидетельствует)
+
+Rel__U(WorkProduct, LevelOfDetail, имеет)
+Rel__U(WorkProduct, OptionalLevelOfDetail, имеет)
+
+Rel__L(WPResource, WorkProduct, помогают создавать)
+
+Rel__U(ActivitySpace, AlphaState, нацеливается на)
+Rel__R(ActivitySpace, Activity, организует)
+Rel__D(ActivitySpace, Competency, вовлекает)
+
+Rel__L(Activity, AlphaState, результирует)
+Rel__U(Activity, WorkProduct, производит)
+Rel__L(Activity, Competency, требует)
+
+Rel__L(ActivityPatterns, Activity, помогает выполнять)
+
+Rel__L(CompetencyPatterns, Activity, квалифицирует ответственности)
+Rel__L(CompetencyPatterns, Competency, помогает профилировать команду)
+
+@enduml

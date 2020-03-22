@@ -1,0 +1,33 @@
+@startuml
+!include ../src/semod.puml
+
+WorkProduct(ModelDocumentation, Докуменатция\nмодели)
+WorkProduct(RoleDocumentation, Ролевая\nдокументация)
+Alpha(Model, Модель)
+Alpha(Metamodel, Метамодель)
+Alpha(RoleDescription, Ролевое\nописание)
+Alpha(RoleDescriptionMethod, Ролевой\nметод\nописания)
+Alpha(RoleInterest, Ролевой\nинтерес\nк системе)
+Alpha(ProjectRole, Проектная\nроль)
+Alpha(SystemDescription, Системное\nописание)
+WorkProduct(SystemDocumentation, Системная\nдокументация)
+Alpha(SystemRealization, Воплощение\nсистемы)
+
+Rel__R(ModelDocumentation, Model, документирует)
+Rel__L(Metamodel, Model, устанавливает\nсоглашение для)
+Rel_Composition_Up(RoleDocumentation, ModelDocumentation)
+Rel__R(RoleDocumentation, RoleDescription, документирует)
+Rel_Composition_Up(RoleDescription, Model)
+Rel__R(RoleDescription, RoleInterest, отвечает\nна вопросы)
+Rel_Composition_Up(RoleDescriptionMethod, Metamodel)
+Rel__L(RoleDescriptionMethod, RoleDescription, задаёт)
+Rel__D(RoleDescriptionMethod, RoleInterest, оформляет)
+Rel_Composition_Up(SystemDocumentation, RoleDocumentation)
+Rel__R(SystemDocumentation, SystemDescription, документирует)
+Rel_Composition_Up(SystemDescription, RoleDescription)
+Rel__R(SystemDescription, SystemRealization, описывает)
+Rel__U(ProjectRole, RoleInterest, имеет)
+Rel__D(ProjectRole, SystemRealization, затрагивает или\nзатрагивается)
+
+
+@enduml

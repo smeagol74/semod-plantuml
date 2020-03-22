@@ -23,6 +23,7 @@ skinparam rectangle {
   RoundCorner<<essence_generic>> 12
   BorderThickness<<essence_generic>> 2
   BorderStyle<<essence_optional_level_of_details>> dashed
+  BorderStyle<<essence_activity_space>> dashed
   BackgroundColor<<essence_customer>> #e5ffe5
   BorderColor<<essence_customer>> #40a94c
   DefaultTextAlignment<<essence_customer>> center
