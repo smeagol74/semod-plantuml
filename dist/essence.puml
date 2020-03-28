@@ -161,6 +161,7 @@ skinparam rectangle {
   RoundCorner<<essence_generic>> 12
   BorderThickness<<essence_generic>> 2
   BorderStyle<<essence_optional_level_of_details>> dashed
+  BorderStyle<<essence_activity_space>> dashed
   BackgroundColor<<essence_customer>> #e5ffe5
   BorderColor<<essence_customer>> #40a94c
   DefaultTextAlignment<<essence_customer>> center
@@ -212,6 +213,7 @@ sprite $practice_customer /usr/local/share/semod/sprites/essence/practice_custom
 sprite $pattern_customer /usr/local/share/semod/sprites/essence/pattern_customer.png
 sprite $resource_customer /usr/local/share/semod/sprites/essence/resource_customer.png
 sprite $work_product_customer /usr/local/share/semod/sprites/essence/work_product_customer.png
+sprite $state_customer /usr/local/share/semod/sprites/essence/state_customer.png
 
 sprite $alpha_solution /usr/local/share/semod/sprites/essence/alpha_solution.png
 sprite $activity_solution /usr/local/share/semod/sprites/essence/activity_solution.png
@@ -221,6 +223,7 @@ sprite $practice_solution /usr/local/share/semod/sprites/essence/practice_soluti
 sprite $pattern_solution /usr/local/share/semod/sprites/essence/pattern_solution.png
 sprite $resource_solution /usr/local/share/semod/sprites/essence/resource_solution.png
 sprite $work_product_solution /usr/local/share/semod/sprites/essence/work_product_solution.png
+sprite $state_solution /usr/local/share/semod/sprites/essence/state_solution.png
 
 sprite $alpha_endeavor /usr/local/share/semod/sprites/essence/alpha_endeavor.png
 sprite $activity_endeavor /usr/local/share/semod/sprites/essence/activity_endeavor.png
@@ -230,12 +233,18 @@ sprite $practice_endeavor /usr/local/share/semod/sprites/essence/practice_endeav
 sprite $pattern_endeavor /usr/local/share/semod/sprites/essence/pattern_endeavor.png
 sprite $resource_endeavor /usr/local/share/semod/sprites/essence/resource_endeavor.png
 sprite $work_product_endeavor /usr/local/share/semod/sprites/essence/work_product_endeavor.png
+sprite $state_endeavor /usr/local/share/semod/sprites/essence/state_endeavor.png
 
 hide <<essence_generic>><<essence_work_product>> stereotype
+hide <<essence_generic>> <<essence_work_product>> stereotype
+hide <<essence_area>><<essence_customer_area>> stereotype
 hide <<essence_area>> <<essence_customer_area>> stereotype
+hide <<essence_area>><<essence_solution_area>> stereotype
 hide <<essence_area>> <<essence_solution_area>> stereotype
+hide <<essence_area>><<essence_endeavor_area>> stereotypes
 hide <<essence_area>> <<essence_endeavor_area>> stereotypes
 hide <<essence_generic>><<essence_pattern_association>> stereotype
+hide <<essence_generic>> <<essence_pattern_association>> stereotype
 
 ' Elements
 ' ##################################
@@ -284,7 +293,7 @@ hide <<essence_generic>><<essence_pattern_association>> stereotype
 
 ' Endeavor Area of Concern
 !define Endeavor_Alpha(e_alias, e_label) rectangle "e_label" <<$alpha_endeavor>> <<essence_endeavor>> <<essence_endeavor_alpha>> as e_alias
-!define Endeavor_AlphaState(e_alias, e_label) rectangle "e_label" <<$alpha_state_endeavor>> <<essence_endeavor>> <<essence_endeavor_alpha_state>> as e_alias
+!define Endeavor_AlphaState(e_alias, e_label) rectangle "e_label" <<$state_endeavor>> <<essence_endeavor>> <<essence_endeavor_alpha_state>> as e_alias
 !define Endeavor_Activity(e_alias, e_label) rectangle "e_label" <<$activity_endeavor>> <<essence_endeavor>> <<essence_endeavor_activity>> as e_alias
 !define Endeavor_ActivitySpace(e_alias, e_label) rectangle "e_label" <<$activity_space_endeavor>> <<essence_endeavor>> <<essence_endeavor_activity_space>> as e_alias
 !define Endeavor_Competency(e_alias, e_label) rectangle "e_label" <<$competency_endeavor>> <<essence_endeavor>> <<essence_endeavor_competency>> as e_alias

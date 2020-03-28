@@ -38,7 +38,7 @@ frame Generic as FG {
 
 Customer_Area(FC, Customer Area of Concern) {
   Customer_Alpha(C_A0, Stakeholder)
-  Customer_AlphaState(C_AS0, Bounded)
+  Customer_AlphaState(C_AS01, Bounded)
   Customer_Activity(C_AC0, Activity)
   Customer_ActivitySpace(C_AS0, Build the system)
   Customer_Competency(C_C0, Leadership)
@@ -50,7 +50,7 @@ Customer_Area(FC, Customer Area of Concern) {
 
 Solution_Area(FS, Solution Area of Concern) {
   Solution_Alpha(S_A0, Stakeholder)
-  Solution_AlphaState(S_AS0, Bounded)
+  Solution_AlphaState(S_AS02, Bounded)
   Solution_Activity(S_AC0, Activity)
   Solution_ActivitySpace(S_AS0, Build the system)
   Solution_Competency(S_C0, Leadership)
@@ -62,7 +62,7 @@ Solution_Area(FS, Solution Area of Concern) {
 
 Endeavor_Area(FE, Endeavor Area of Concern) {
   Endeavor_Alpha(E_A0, Stakeholder)
-  Endeavor_AlphaState(E_AS0, Bounded)
+  Endeavor_AlphaState(E_AS01, Bounded)
   Endeavor_Activity(E_AC0, Activity)
   Endeavor_ActivitySpace(E_AS0, Build the system)
   Endeavor_Competency(E_C0, Leadership)
