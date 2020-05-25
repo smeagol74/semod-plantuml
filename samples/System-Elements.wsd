@@ -3,7 +3,7 @@
 !include ../src/semod.puml
 
 System_Other(S0, 'Система 0\n(чужая система)')
-SupraSystem_OfInterest(S1, 'Система 1\n(целевая надсистема)')
+System_SupraOfInterest(S1, 'Система 1\n(целевая надсистема)')
 System_Our(S2, 'Система 2\n(наша система)')
 System_OfInterest(SS2, 'Система 3\n(целевая система)')
 System_Other(S3, 'Конкурент\n(чужая система)')
