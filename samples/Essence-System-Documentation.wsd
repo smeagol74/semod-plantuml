@@ -13,6 +13,7 @@ Alpha(SystemDescription, Системное\nописание)
 WorkProduct(SystemDocumentation, Системная\nдокументация)
 Alpha(SystemRealization, Воплощение\nсистемы)
 
+
 Rel__R(ModelDocumentation, Model, документирует)
 Rel__L(Metamodel, Model, устанавливает\nсоглашение для)
 Rel_Composition_Up(RoleDocumentation, ModelDocumentation)
@@ -26,8 +27,15 @@ Rel_Composition_Up(SystemDocumentation, RoleDocumentation)
 Rel__R(SystemDocumentation, SystemDescription, документирует)
 Rel_Composition_Up(SystemDescription, RoleDescription)
 Rel__R(SystemDescription, SystemRealization, описывает)
-Rel__U(ProjectRole, RoleInterest, имеет)
+Rel__U(ProjectRole, RoleInterest, выделяет)
 Rel__D(ProjectRole, SystemRealization, затрагивает или\nзатрагивается)
 
+Alpha(RolePreference, Ролевое\nпредпочтение\nинтереса)
+Alpha(RoleIntention, Ролевое\nнамерение)
+
+Rel__L(RolePreference, RoleInterest)
+Rel__U(RolePreference, RoleDescriptionMethod, задаёт)
+Rel__R(ProjectRole, RolePreference, имеет)
+Rel__L(RoleIntention, RolePreference, реализует)
 
 @enduml

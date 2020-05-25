@@ -3,19 +3,21 @@
 !include ../src/semod.puml
 
 System_Other(S0, 'Система 0\n(чужая система)')
-System_OfInterest(S1, 'Система 1\n(целевая система)')
+SupraSystem_OfInterest(S1, 'Система 1\n(целевая надсистема)')
 System_Our(S2, 'Система 2\n(наша система)')
+System_OfInterest(SS2, 'Система 3\n(целевая система)')
 System_Other(S3, 'Конкурент\n(чужая система)')
 System_Role(SR4, 'Делатель\n(системная роль)')
 System_Placeholder(SP1, 'Место для системы')
-System_Enabling(SS1, 'Система 3\n(обслуживающая система)')
+System_Enabling(SS1, 'Система 3\n(система в обеспечении)')
 
 Rel_Composition(S0, S1, 'состоит из')
 Rel_Composition(S1, SP1, 'состоит из')
 Rel_Composition(S1, SR4, 'состоит из')
 Rel_Realization_Up(S2, SP1, 'воплощает')
+Rel_Realization_Up(SS2, SP1, 'воплощает')
 Rel_Realization_Up(S3, SP1, 'воплощает')
-Rel_Composition(SS1, S2, 'состоит из')
+Rel__(SS1, SS2, 'обеспечивает')
 
 Lay_R(S3, S2)
 
