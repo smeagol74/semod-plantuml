@@ -3,98 +3,146 @@
 !define Junction_Or(e_alias, e_label) circle #whitesmoke "e_label" as e_alias
 !define Junction_And(e_alias, e_label) circle #black "e_label" as e_alias
 
-!define Rel_(e_sourceAlias, e_targetAlias, e_label, e_direction="") e_sourceAlias e_direction e_targetAlias : "e_label"
+!unquoted procedure $rel($sourceAlias, $targetAlias, $label, $direction, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
+    $sourceAlias $direction $targetAlias : "$lbl"
+!endprocedure
 
-!define Rel__(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-->")
-!define Rel__Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
-!define Rel__Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
-!define Rel__Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
-!define Rel__Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
-!define Rel__U(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
-!define Rel__D(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
-!define Rel__L(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
-!define Rel__R(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
+!unquoted procedure $rel_via($sourceAlias, $targetAlias, $viaAlias, $label, $startDir, $direction, $endDir, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
 
-!define Rel_Composition(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*--")
-!define Rel_Composition_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-UP-")
-!define Rel_Composition_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-DOWN-")
-!define Rel_Composition_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-LEFT-")
-!define Rel_Composition_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "*-RIGHT-")
+    !$dirs = %splitstr($direction, "-")
+    !$idx = 0
+    !$curr = $sourceAlias
+    !$len = (%strlen($direction) + 1) / 2
+    !$circleLabel = $len / 2
+    !$lineLabel = ($len + 1) / 2
 
-!define Rel_Aggregation(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "o--")
-!define Rel_Aggregation_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "o-UP-")
-!define Rel_Aggregation_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "o-DOWN-")
-!define Rel_Aggregation_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "o-LEFT-")
-!define Rel_Aggregation_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "o-RIGHT-")
+    !foreach $dir in $dirs
+        !$viaId = $viaAlias + $idx
+        !$txt = "\n"
+        !if ($circleLabel != $lineLabel) && ($idx == $circleLabel)
+            !$txt = $lbl
+        !endif
 
-!define Rel_Assignment(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "0-->")
-!define Rel_Assignment_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "0-UP->")
-!define Rel_Assignment_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "0-DOWN->")
-!define Rel_Assignment_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "0-LEFT->")
-!define Rel_Assignment_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "0-RIGHT->")
+        circle #lightgray "$txt" as $viaId
+        !$d = "-"
+        !if ($curr == $sourceAlias)
+            !$d = $startDir
+        !endif
+        !$dirStr = $d + $dir + "-"
 
-!define Rel_Specialization(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "--|>")
-!define Rel_Specialization_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP-|>")
-!define Rel_Specialization_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN-|>")
-!define Rel_Specialization_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT-|>")
-!define Rel_Specialization_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT-|>")
+        !$txt = ""
+        !if ($circleLabel == $lineLabel) && ($idx == $lineLabel)
+            !$txt = $lbl
+        !endif
+        $rel($curr, $viaId, $txt, $dirStr)
+        !$curr = $viaId
+        !$idx = $idx + 1
+    !endfor
 
-!define Rel_Serving(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-->")
-!define Rel_Serving_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
-!define Rel_Serving_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
-!define Rel_Serving_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
-!define Rel_Serving_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
+    $rel($curr, $targetAlias, "", $endDir)
 
-!define Rel_Association(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "--")
-!define Rel_Association_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP-")
-!define Rel_Association_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN-")
-!define Rel_Association_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT-")
-!define Rel_Association_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT-")
+!endprocedure
 
-!define Rel_Flow(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "..>>")
-!define Rel_Flow_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".UP.>>")
-!define Rel_Flow_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".DOWN.>>")
-!define Rel_Flow_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".LEFT.>>")
-!define Rel_Flow_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".RIGHT.>>")
+!define Rel__($from, $to, $label="", $link="") $rel($from, $to, $label, "-->", $link)
+!define Rel__Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP->", $link)
+!define Rel__Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN->", $link)
+!define Rel__Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT->", $link)
+!define Rel__Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT->", $link)
+!define Rel__U($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP->", $link)
+!define Rel__D($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN->", $link)
+!define Rel__L($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT->", $link)
+!define Rel__R($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT->", $link)
 
-!define Rel_Realization(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "..|>")
-!define Rel_Realization_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".UP.|>")
-!define Rel_Realization_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".DOWN.|>")
-!define Rel_Realization_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".LEFT.|>")
-!define Rel_Realization_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".RIGHT.|>")
+!define Rel_Composition($from, $to, $label="", $link="") $rel($from, $to, $label, "*--", $link)
+!define Rel_Composition_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "*-UP-", $link)
+!define Rel_Composition_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "*-DOWN-", $link)
+!define Rel_Composition_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "*-LEFT-", $link)
+!define Rel_Composition_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "*-RIGHT-", $link)
 
-!define Rel_Triggering(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-->>")
-!define Rel_Triggering_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->>")
-!define Rel_Triggering_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->>")
-!define Rel_Triggering_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->>")
-!define Rel_Triggering_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->>")
+!define Rel_Aggregation($from, $to, $label="", $link="") $rel($from, $to, $label, "o--", $link)
+!define Rel_Aggregation_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "o-UP-", $link)
+!define Rel_Aggregation_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "o-DOWN-", $link)
+!define Rel_Aggregation_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "o-LEFT-", $link)
+!define Rel_Aggregation_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "o-RIGHT-", $link)
 
-!define Rel_Access(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "..")
-!define Rel_Access_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".UP.")
-!define Rel_Access_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".DOWN.")
-!define Rel_Access_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".LEFT.")
-!define Rel_Access_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".RIGHT.")
+!define Rel_Assignment($from, $to, $label="", $link="") $rel($from, $to, $label, "0-->", $link)
+!define Rel_Assignment_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "0-UP->", $link)
+!define Rel_Assignment_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "0-DOWN->", $link)
+!define Rel_Assignment_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "0-LEFT->", $link)
+!define Rel_Assignment_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "0-RIGHT->", $link)
 
-!define Rel_Access_r(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<..")
-!define Rel_Access_r_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.UP.")
-!define Rel_Access_r_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.DOWN.")
-!define Rel_Access_r_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.LEFT.")
-!define Rel_Access_r_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.RIGHT.")
+!define Rel_Specialization($from, $to, $label="", $link="") $rel($from, $to, $label, "--|>", $link)
+!define Rel_Specialization_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP-|>", $link)
+!define Rel_Specialization_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN-|>", $link)
+!define Rel_Specialization_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT-|>", $link)
+!define Rel_Specialization_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT-|>", $link)
 
-!define Rel_Access_rw(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<..>")
-!define Rel_Access_rw_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.UP.>")
-!define Rel_Access_rw_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.DOWN.>")
-!define Rel_Access_rw_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.LEFT.>")
-!define Rel_Access_rw_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "<.RIGHT.>")
+!define Rel_Serving($from, $to, $label="", $link="") $rel($from, $to, $label, "-->", $link)
+!define Rel_Serving_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP->", $link)
+!define Rel_Serving_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN->", $link)
+!define Rel_Serving_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT->", $link)
+!define Rel_Serving_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT->", $link)
 
-!define Rel_Access_w(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "..>")
-!define Rel_Access_w_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".UP.>")
-!define Rel_Access_w_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".DOWN.>")
-!define Rel_Access_w_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".LEFT.>")
-!define Rel_Access_w_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, ".RIGHT.>")
+!define Rel_Association($from, $to, $label="", $link="") $rel($from, $to, $label, "--", $link)
+!define Rel_Association_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP-", $link)
+!define Rel_Association_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN-", $link)
+!define Rel_Association_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT-", $link)
+!define Rel_Association_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT-", $link)
 
-!define Rel_Influence(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-->")
-!define Rel_Influence_Up(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-UP->")
-!define Rel_Influence_Down(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-DOWN->")
-!define Rel_Influence_Left(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-LEFT->")
-!define Rel_Influence_Right(e_From, e_To, e_label="") Rel_(e_From, e_To, e_label, "-RIGHT->")
+!define Rel_Flow($from, $to, $label="", $link="") $rel($from, $to, $label, "..>>", $link)
+!define Rel_Flow_Up($from, $to, $label="", $link="") $rel($from, $to, $label, ".UP.>>", $link)
+!define Rel_Flow_Down($from, $to, $label="", $link="") $rel($from, $to, $label, ".DOWN.>>", $link)
+!define Rel_Flow_Left($from, $to, $label="", $link="") $rel($from, $to, $label, ".LEFT.>>", $link)
+!define Rel_Flow_Right($from, $to, $label="", $link="") $rel($from, $to, $label, ".RIGHT.>>", $link)
+
+!define Rel_Realization($from, $to, $label="", $link="") $rel($from, $to, $label, "..|>", $link)
+!define Rel_Realization_Up($from, $to, $label="", $link="") $rel($from, $to, $label, ".UP.|>", $link)
+!define Rel_Realization_Down($from, $to, $label="", $link="") $rel($from, $to, $label, ".DOWN.|>", $link)
+!define Rel_Realization_Left($from, $to, $label="", $link="") $rel($from, $to, $label, ".LEFT.|>", $link)
+!define Rel_Realization_Right($from, $to, $label="", $link="") $rel($from, $to, $label, ".RIGHT.|>", $link)
+
+!define Rel_Triggering($from, $to, $label="", $link="") $rel($from, $to, $label, "-->>", $link)
+!define Rel_Triggering_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP->>", $link)
+!define Rel_Triggering_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN->>", $link)
+!define Rel_Triggering_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT->>", $link)
+!define Rel_Triggering_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT->>", $link)
+
+!define Rel_Access($from, $to, $label="", $link="") $rel($from, $to, $label, "..", $link)
+!define Rel_Access_Up($from, $to, $label="", $link="") $rel($from, $to, $label, ".UP.", $link)
+!define Rel_Access_Down($from, $to, $label="", $link="") $rel($from, $to, $label, ".DOWN.", $link)
+!define Rel_Access_Left($from, $to, $label="", $link="") $rel($from, $to, $label, ".LEFT.", $link)
+!define Rel_Access_Right($from, $to, $label="", $link="") $rel($from, $to, $label, ".RIGHT.", $link)
+
+!define Rel_Access_r($from, $to, $label="", $link="") $rel($from, $to, $label, "<..", $link)
+!define Rel_Access_r_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "<.UP.", $link)
+!define Rel_Access_r_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "<.DOWN.", $link)
+!define Rel_Access_r_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "<.LEFT.", $link)
+!define Rel_Access_r_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "<.RIGHT.", $link)
+
+!define Rel_Access_rw($from, $to, $label="", $link="") $rel($from, $to, $label, "<..>", $link)
+!define Rel_Access_rw_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "<.UP.>", $link)
+!define Rel_Access_rw_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "<.DOWN.>", $link)
+!define Rel_Access_rw_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "<.LEFT.>", $link)
+!define Rel_Access_rw_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "<.RIGHT.>", $link)
+
+!define Rel_Access_w($from, $to, $label="", $link="") $rel($from, $to, $label, "..>", $link)
+!define Rel_Access_w_Up($from, $to, $label="", $link="") $rel($from, $to, $label, ".UP.>", $link)
+!define Rel_Access_w_Down($from, $to, $label="", $link="") $rel($from, $to, $label, ".DOWN.>", $link)
+!define Rel_Access_w_Left($from, $to, $label="", $link="") $rel($from, $to, $label, ".LEFT.>", $link)
+!define Rel_Access_w_Right($from, $to, $label="", $link="") $rel($from, $to, $label, ".RIGHT.>", $link)
+
+!define Rel_Influence($from, $to, $label="", $link="") $rel($from, $to, $label, "-->", $link)
+!define Rel_Influence_Up($from, $to, $label="", $link="") $rel($from, $to, $label, "-UP->", $link)
+!define Rel_Influence_Down($from, $to, $label="", $link="") $rel($from, $to, $label, "-DOWN->", $link)
+!define Rel_Influence_Left($from, $to, $label="", $link="") $rel($from, $to, $label, "-LEFT->", $link)
+!define Rel_Influence_Right($from, $to, $label="", $link="") $rel($from, $to, $label, "-RIGHT->", $link)

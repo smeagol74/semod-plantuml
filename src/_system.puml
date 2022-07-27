@@ -20,6 +20,7 @@ skinparam rectangle {
     BackgroundColor<<system-enabling>> #FFFF00
     BorderColor<<system-enabling>> black
 }
+
 skinparam actor<<system-role>> {
     BorderColor #777777
     BackgroundColor lightgray

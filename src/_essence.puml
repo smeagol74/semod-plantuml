@@ -6,15 +6,39 @@
 ' ##################################
 
 skinparam frame {
-  BackgroundColor<<essence_customer_area>> #c9ffc9
-  BorderColor<<essence_customer_area>> #40a94c
-  BackgroundColor<<essence_solution_area>> #ffff99
-  BorderColor<<essence_solution_area>> #ea7502
-  BackgroundColor<<essence_endeavor_area>> #c6d9f1
-  BorderColor<<essence_endeavor_area>> #4b6ec6
   BorderThickness<<essence_area>> 2
   RoundCorner<<essence_area>> 25
+  FontColor<<essence_area>> #000000
+
+  BackgroundColor<<essence_generic_area>> #dddddd
+  BorderColor<<essence_generic_area>> #000000
+
+  BackgroundColor<<essence_customer_area>> #c9ffc9
+  BorderColor<<essence_customer_area>> #40a94c
+
+  BackgroundColor<<essence_solution_area>> #ffff99
+  BorderColor<<essence_solution_area>> #ea7502
+
+  BackgroundColor<<essence_endeavor_area>> #c6d9f1
+  BorderColor<<essence_endeavor_area>> #4b6ec6
 }
+
+skinparam boundary {
+  FontColor<<essence_area>> #000000
+}
+
+skinparam package {
+  FontColor<<essence_area>> #000000
+}
+
+<style>
+  .essence_area {
+    title {
+        FontColor #000000
+        FontSize 18
+    }
+  }
+</style>
 
 skinparam rectangle {
   BackgroundColor<<essence_generic>> #f2f2f2
@@ -22,23 +46,34 @@ skinparam rectangle {
   DefaultTextAlignment<<essence_generic>> center
   RoundCorner<<essence_generic>> 12
   BorderThickness<<essence_generic>> 2
+  FontColor<<essence_generic>> #000000
+
   BorderStyle<<essence_optional_level_of_details>> dashed
+  FontColor<<essence_optional_level_of_details>> #000000
+
   BorderStyle<<essence_activity_space>> dashed
+  FontColor<<essence_activity_space>> #000000
+
   BackgroundColor<<essence_customer>> #e5ffe5
   BorderColor<<essence_customer>> #40a94c
   DefaultTextAlignment<<essence_customer>> center
   RoundCorner<<essence_customer>> 12
   BorderThickness<<essence_customer>> 2
+  FontColor<<essence_customer>> #000000
+
   BackgroundColor<<essence_solution>> #ffffcc
   BorderColor<<essence_solution>> #ea7502
   DefaultTextAlignment<<essence_solution>> center
   RoundCorner<<essence_solution>> 12
   BorderThickness<<essence_solution>> 2
+  FontColor<<essence_solution>> #000000
+
   BackgroundColor<<essence_endeavor>> #dce6f2
   BorderColor<<essence_endeavor>> #4b6ec6
   DefaultTextAlignment<<essence_endeavor>> center
   RoundCorner<<essence_endeavor>> 12
   BorderThickness<<essence_endeavor>> 2
+  FontColor<<essence_endeavor>> #000000
 }
 
 skinparam file {
@@ -46,6 +81,7 @@ skinparam file {
   BorderColor<<essence_generic>> #6e6e6e
   BorderThickness<<essence_generic>> 2
   DefaultTextAlignment<<essence_generic>> center
+  FontColor<<essence_generic>> #000000
 }
 
 skinparam storage {
@@ -53,6 +89,7 @@ skinparam storage {
   BorderColor<<essence_generic>> #6e6e6e
   BorderThickness<<essence_generic>> 2
   DefaultTextAlignment<<essence_generic>> center
+  FontColor<<essence_generic>> #000000
 }
 
 sprite $alpha /usr/local/share/semod/sprites/essence/alpha.png
@@ -99,6 +136,8 @@ sprite $state_endeavor /usr/local/share/semod/sprites/essence/state_endeavor.png
 
 hide <<essence_generic>><<essence_work_product>> stereotype
 hide <<essence_generic>> <<essence_work_product>> stereotype
+hide <<essence_area>><<essence_generic_area>> stereotype
+hide <<essence_area>> <<essence_generic_area>> stereotype
 hide <<essence_area>><<essence_customer_area>> stereotype
 hide <<essence_area>> <<essence_customer_area>> stereotype
 hide <<essence_area>><<essence_solution_area>> stereotype
@@ -108,58 +147,66 @@ hide <<essence_area>> <<essence_endeavor_area>> stereotypes
 hide <<essence_generic>><<essence_pattern_association>> stereotype
 hide <<essence_generic>> <<essence_pattern_association>> stereotype
 
+!unquoted procedure $rectangle($alias, $label, $icon="", $class="", $link="")
+    rectangle "$label" <<$icon>> $class as $alias
+    !if ($link != "")
+        url of $alias is [[$link]]
+    !endif
+!endprocedure
+
 ' Elements
 ' ##################################
 
 ' Generic Elements
-!define Alpha(e_alias, e_label) rectangle "e_label" <<$alpha>> <<essence_generic>> <<essence_alpha>> as e_alias
-!define Kernel(e_alias, e_label) rectangle "e_label" <<$kernel>> <<essence_generic>> <<essence_kernel>> as e_alias
-!define AlphaState(e_alias, e_label) rectangle "e_label" <<$state>> <<essence_generic>> <<essence_alpha_state>> as e_alias
-!define WorkProduct(e_alias, e_label) rectangle "e_label" <<$work_product>> <<essence_generic>> <<essence_work_product>> as e_alias
-!define LevelOfDetail(e_alias, e_label) rectangle "e_label" <<$level_of_detail>> <<essence_generic>> <<essence_level_of_details>> as e_alias
-!define OptionalLevelOfDetail(e_alias, e_label) rectangle "e_label" <<$level_of_detail>> <<essence_generic>> <<essence_optional_level_of_details>> as e_alias
-!define Practice(e_alias, e_label) rectangle "e_label" <<$practice>> <<essence_generic>> <<essence_practice>> as e_alias
-!define Activity(e_alias, e_label) rectangle "e_label" <<$activity>> <<essence_generic>> <<essence_activity>> as e_alias
-!define ActivitySpace(e_alias, e_label) rectangle "e_label" <<$activity_space>> <<essence_generic>> <<essence_activity_space>> as e_alias
-!define Competency(e_alias, e_label) rectangle "e_label" <<$competency>> <<essence_generic>> <<essence_competency>> as e_alias
-!define Pattern(e_alias, e_label) rectangle "e_label" <<$pattern>> <<essence_generic>> <<essence_pattern>> as e_alias
-!define PatternAssociation(e_alias, e_label) storage "e_label" <<$pattern_association>> <<essence_generic>> <<essence_pattern_association>> as e_alias
-!define Resource(e_alias, e_label) rectangle "e_label" <<$resource>> <<essence_generic>> <<essence_resource>> as e_alias
+!define Alpha($alias, $label, $link="") $rectangle($alias, $label, $alpha, <<essence_generic>> <<essence_alpha>>, $link)
+!define Kernel($alias, $label, $link="") $rectangle($alias, $label, $kernel, <<essence_generic>> <<essence_kernel>>, $link)
+!define AlphaState($alias, $label, $link="") $rectangle($alias, $label, $state, <<essence_generic>> <<essence_alpha_state>>, $link)
+!define WorkProduct($alias, $label, $link="") $rectangle($alias, $label, $work_product, <<essence_generic>> <<essence_work_product>>, $link)
+!define LevelOfDetail($alias, $label, $link="") $rectangle($alias, $label, $level_of_detail, <<essence_generic>> <<essence_level_of_details>>, $link)
+!define OptionalLevelOfDetail($alias, $label, $link="") $rectangle($alias, $label, $level_of_detail, <<essence_generic>> <<essence_optional_level_of_details>>, $link)
+!define Practice($alias, $label, $link="") $rectangle($alias, $label, $practice, <<essence_generic>> <<essence_practice>>, $link)
+!define Activity($alias, $label, $link="") $rectangle($alias, $label, $activity, <<essence_generic>> <<essence_activity>>, $link)
+!define ActivitySpace($alias, $label, $link="") $rectangle($alias, $label, $activity_space, <<essence_generic>> <<essence_activity_space>>, $link)
+!define Competency($alias, $label, $link="") $rectangle($alias, $label, $competency, <<essence_generic>> <<essence_competency>>, $link)
+!define Pattern($alias, $label, $link="") $rectangle($alias, $label, $pattern, <<essence_generic>> <<essence_pattern>>, $link)
+!define PatternAssociation($alias, $label, $link="") $rectangle($alias, $label, $pattern_association, <<essence_generic>> <<essence_pattern_association>>, $link)
+!define Resource($alias, $label, $link="") $rectangle($alias, $label, $resource, <<essence_generic>> <<essence_resource>>, $link)
 
 ' Areas of Concern
-!define Customer_Area(e_alias, e_label) frame "e_label" <<essence_area>> <<essence_customer_area>> as e_alias
-!define Solution_Area(e_alias, e_label) frame "e_label" <<essence_area>> <<essence_solution_area>> as e_alias
-!define Endeavor_Area(e_alias, e_label) frame "e_label" <<essence_area>> <<essence_endeavor_area>> as e_alias
+!define Area($alias, $label) frame "$label" <<essence_area>> <<essence_generic_area>> as $alias
+!define Customer_Area($alias, $label) frame "$label" <<essence_area>> <<essence_customer_area>> as $alias
+!define Solution_Area($alias, $label) frame "$label" <<essence_area>> <<essence_solution_area>> as $alias
+!define Endeavor_Area($alias, $label) frame "$label" <<essence_area>> <<essence_endeavor_area>> as $alias
 
 ' Customer Area of Concern
-!define Customer_Alpha(e_alias, e_label) rectangle "e_label" <<$alpha_customer>> <<essence_customer>> <<essence_customer_alpha>> as e_alias
-!define Customer_AlphaState(e_alias, e_label) rectangle "e_label" <<$state_customer>> <<essence_customer>> <<essence_customer_alpha_state>> as e_alias
-!define Customer_Activity(e_alias, e_label) rectangle "e_label" <<$activity_customer>> <<essence_customer>> <<essence_customer_activity>> as e_alias
-!define Customer_ActivitySpace(e_alias, e_label) rectangle "e_label" <<$activity_space_customer>> <<essence_customer>> <<essence_customer_activity_space>> as e_alias
-!define Customer_Competency(e_alias, e_label) rectangle "e_label" <<$competency_customer>> <<essence_customer>> <<essence_customer_competency>> as e_alias
-!define Customer_Practice(e_alias, e_label) rectangle "e_label" <<$practice_customer>> <<essence_customer>> <<essence_customer_practice>> as e_alias
-!define Customer_Pattern(e_alias, e_label) rectangle "e_label" <<$pattern_customer>> <<essence_customer>> <<essence_customer_pattern>> as e_alias
-!define Customer_Resource(e_alias, e_label) rectangle "e_label" <<$resource_customer>> <<essence_customer>> <<essence_customer_resource>> as e_alias
-!define Customer_WorkProduct(e_alias, e_label) rectangle "e_label" <<$work_product_customer>> <<essence_customer>> <<essence_customer_work_product>> as e_alias
+!define Customer_Alpha($alias, $label, $link="") $rectangle($alias, $label, $alpha_customer, <<essence_customer>> <<essence_customer_alpha>>, $link)
+!define Customer_AlphaState($alias, $label, $link="") $rectangle($alias, $label, $state_customer, <<essence_customer>> <<essence_customer_alpha_state>>, $link)
+!define Customer_Activity($alias, $label, $link="") $rectangle($alias, $label, $activity_customer, <<essence_customer>> <<essence_customer_activity>>, $link)
+!define Customer_ActivitySpace($alias, $label, $link="") $rectangle($alias, $label, $activity_space_customer, <<essence_customer>> <<essence_customer_activity_space>>, $link)
+!define Customer_Competency($alias, $label, $link="") $rectangle($alias, $label, $competency_customer, <<essence_customer>> <<essence_customer_competency>>, $link)
+!define Customer_Practice($alias, $label, $link="") $rectangle($alias, $label, $practice_customer, <<essence_customer>> <<essence_customer_practice>>, $link)
+!define Customer_Pattern($alias, $label, $link="") $rectangle($alias, $label, $pattern_customer, <<essence_customer>> <<essence_customer_pattern>>, $link)
+!define Customer_Resource($alias, $label, $link="") $rectangle($alias, $label, $resource_customer, <<essence_customer>> <<essence_customer_resource>>, $link)
+!define Customer_WorkProduct($alias, $label, $link="") $rectangle($alias, $label, $work_product_customer, <<essence_customer>> <<essence_customer_work_product>>, $link)
 
 ' Solution Area of Concern
-!define Solution_Alpha(e_alias, e_label) rectangle "e_label" <<$alpha_solution>> <<essence_solution>> <<essence_solution_alpha>> as e_alias
-!define Solution_AlphaState(e_alias, e_label) rectangle "e_label" <<$state_solution>> <<essence_solution>> <<essence_solution_alpha_state>> as e_alias
-!define Solution_Activity(e_alias, e_label) rectangle "e_label" <<$activity_solution>> <<essence_solution>> <<essence_solution_activity>> as e_alias
-!define Solution_ActivitySpace(e_alias, e_label) rectangle "e_label" <<$activity_space_solution>> <<essence_solution>> <<essence_solution_activity_space>> as e_alias
-!define Solution_Competency(e_alias, e_label) rectangle "e_label" <<$competency_solution>> <<essence_solution>> <<essence_solution_competency>> as e_alias
-!define Solution_Practice(e_alias, e_label) rectangle "e_label" <<$practice_solution>> <<essence_solution>> <<essence_solution_practice>> as e_alias
-!define Solution_Pattern(e_alias, e_label) rectangle "e_label" <<$pattern_solution>> <<essence_solution>> <<essence_solution_pattern>> as e_alias
-!define Solution_Resource(e_alias, e_label) rectangle "e_label" <<$resource_solution>> <<essence_solution>> <<essence_solution_resource>> as e_alias
-!define Solution_WorkProduct(e_alias, e_label) rectangle "e_label" <<$work_product_solution>> <<essence_solution>> <<essence_solution_work_product>> as e_alias
+!define Solution_Alpha($alias, $label, $link="") $rectangle($alias, $label, $alpha_solution, <<essence_solution>> <<essence_solution_alpha>>, $link)
+!define Solution_AlphaState($alias, $label, $link="") $rectangle($alias, $label, $state_solution, <<essence_solution>> <<essence_solution_alpha_state>>, $link)
+!define Solution_Activity($alias, $label, $link="") $rectangle($alias, $label, $activity_solution, <<essence_solution>> <<essence_solution_activity>>, $link)
+!define Solution_ActivitySpace($alias, $label, $link="") $rectangle($alias, $label, $activity_space_solution, <<essence_solution>> <<essence_solution_activity_space>>, $link)
+!define Solution_Competency($alias, $label, $link="") $rectangle($alias, $label, $competency_solution, <<essence_solution>> <<essence_solution_competency>>, $link)
+!define Solution_Practice($alias, $label, $link="") $rectangle($alias, $label, $practice_solution, <<essence_solution>> <<essence_solution_practice>>, $link)
+!define Solution_Pattern($alias, $label, $link="") $rectangle($alias, $label, $pattern_solution, <<essence_solution>> <<essence_solution_pattern>>, $link)
+!define Solution_Resource($alias, $label, $link="") $rectangle($alias, $label, $resource_solution, <<essence_solution>> <<essence_solution_resource>>, $link)
+!define Solution_WorkProduct($alias, $label, $link="") $rectangle($alias, $label, $work_product_solution, <<essence_solution>> <<essence_solution_work_product>>, $link)
 
 ' Endeavor Area of Concern
-!define Endeavor_Alpha(e_alias, e_label) rectangle "e_label" <<$alpha_endeavor>> <<essence_endeavor>> <<essence_endeavor_alpha>> as e_alias
-!define Endeavor_AlphaState(e_alias, e_label) rectangle "e_label" <<$state_endeavor>> <<essence_endeavor>> <<essence_endeavor_alpha_state>> as e_alias
-!define Endeavor_Activity(e_alias, e_label) rectangle "e_label" <<$activity_endeavor>> <<essence_endeavor>> <<essence_endeavor_activity>> as e_alias
-!define Endeavor_ActivitySpace(e_alias, e_label) rectangle "e_label" <<$activity_space_endeavor>> <<essence_endeavor>> <<essence_endeavor_activity_space>> as e_alias
-!define Endeavor_Competency(e_alias, e_label) rectangle "e_label" <<$competency_endeavor>> <<essence_endeavor>> <<essence_endeavor_competency>> as e_alias
-!define Endeavor_Practice(e_alias, e_label) rectangle "e_label" <<$practice_endeavor>> <<essence_endeavor>> <<essence_endeavor_practice>> as e_alias
-!define Endeavor_Pattern(e_alias, e_label) rectangle "e_label" <<$pattern_endeavor>> <<essence_endeavor>> <<essence_endeavor_pattern>> as e_alias
-!define Endeavor_Resource(e_alias, e_label) rectangle "e_label" <<$resource_endeavor>> <<essence_endeavor>> <<essence_endeavor_resource>> as e_alias
-!define Endeavor_WorkProduct(e_alias, e_label) rectangle "e_label" <<$work_product_endeavor>> <<essence_endeavor>> <<essence_endeavor_work_product>> as e_alias
+!define Endeavor_Alpha($alias, $label, $link="") $rectangle($alias, $label, $alpha_endeavor, <<essence_endeavor>> <<essence_endeavor_alpha>>, $link)
+!define Endeavor_AlphaState($alias, $label, $link="") $rectangle($alias, $label, $state_endeavor, <<essence_endeavor>> <<essence_endeavor_alpha_state>>, $link)
+!define Endeavor_Activity($alias, $label, $link="") $rectangle($alias, $label, $activity_endeavor, <<essence_endeavor>> <<essence_endeavor_activity>>, $link)
+!define Endeavor_ActivitySpace($alias, $label, $link="") $rectangle($alias, $label, $activity_space_endeavor, <<essence_endeavor>> <<essence_endeavor_activity_space>>, $link)
+!define Endeavor_Competency($alias, $label, $link="") $rectangle($alias, $label, $competency_endeavor, <<essence_endeavor>> <<essence_endeavor_competency>>, $link)
+!define Endeavor_Practice($alias, $label, $link="") $rectangle($alias, $label, $practice_endeavor, <<essence_endeavor>> <<essence_endeavor_practice>>, $link)
+!define Endeavor_Pattern($alias, $label, $link="") $rectangle($alias, $label, $pattern_endeavor, <<essence_endeavor>> <<essence_endeavor_pattern>>, $link)
+!define Endeavor_Resource($alias, $label, $link="") $rectangle($alias, $label, $resource_endeavor, <<essence_endeavor>> <<essence_endeavor_resource>>, $link)
+!define Endeavor_WorkProduct($alias, $label, $link="") $rectangle($alias, $label, $work_product_endeavor, <<essence_endeavor>> <<essence_endeavor_work_product>>, $link)
