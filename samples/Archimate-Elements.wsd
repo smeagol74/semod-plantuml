@@ -1,5 +1,5 @@
 @startuml
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 title Archimate Example - Elements
 

@@ -1,19 +1,19 @@
 @startuml Example-Stakeholder
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")
 
 @enduml
 
 @startuml Example-BusinessService
-!include ../Archimate.puml
+!include ../src/archimate.iuml
 
 Business_Service(BService, "Business Service")
 
 @enduml
 
 @startuml Example-Composition
-!include ../Archimate.puml
+!include ../src/archimate.iuml
 Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")
 Business_Service(BService, "Business Service")
 
@@ -21,7 +21,7 @@ Rel_Composition(StakeholderElement, BService, "Description for the relationship"
 @enduml
 
 @startuml Example-CompositionDown
-!include ../Archimate.puml
+!include ../src/archimate.iuml
 Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")
 Business_Service(BService, "Business Service")
 
@@ -29,7 +29,7 @@ Rel_Composition_Down(StakeholderElement, BService, "Description for the relation
 @enduml
 
 @startuml Example-Grouping
-!include ../Archimate.puml
+!include ../src/archimate.iuml
 Grouping(Example01, "Group Type 01"){
     Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")
     Business_Service(BService, "Business Service")
@@ -38,7 +38,7 @@ Grouping(Example01, "Group Type 01"){
 @enduml
 
 @startuml Example-Group
-!include ../Archimate.puml
+!include ../src/archimate.iuml
 
 Group(Example02, "Group Type 02"){
     Motivation_Stakeholder(StakeholderElement, "Stakeholder Description")

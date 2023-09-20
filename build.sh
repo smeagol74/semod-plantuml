@@ -17,8 +17,8 @@ function build() {
 rm -rf ${DIST}
 mkdir ${DIST}
 
-build semod.puml
-build archimate.puml
-build system.puml
-build ontology.puml
-build essence.puml
+build semod.iuml
+build archimate.iuml
+build system.iuml
+build ontology.iuml
+build essence.iuml

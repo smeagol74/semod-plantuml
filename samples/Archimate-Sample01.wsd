@@ -1,5 +1,5 @@
 @startuml
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 title Archimate Sample - Requirement & Application Services
 
@@ -11,7 +11,7 @@ Application_Service(ASBudgetPlanning,"Budget Planning Service")
 Application_Component(ACSAPFinanceAccRec, "SAP Finance - Accounts Recievables")
 Application_Component(ACSAPHR, "SAP Human Resources")
 Application_Component(ACSAPFin, "SAP Finance")
-Application_Component(ACSAP,"SAP") 
+Application_Component(ACSAP,"SAP")
 
 Rel_Realization_Up(ASPayroll, ReqPayrollStandard)
 Rel_Realization_Up(ASBudgetPlanning, ReqBudgetPlanning)

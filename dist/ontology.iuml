@@ -1,0 +1,380 @@
+' Styling
+' ##################################
+!TECHN_FONT_SIZE = 12
+!ELEMENT_FONT_COLOR = "#FFFFFF"
+
+skinparam defaultTextAlignment center
+skinparam wrapWidth 400
+skinparam maxMessageSize 150
+skinparam StereotypeAlignment right
+
+skinparam Arrow {
+    Color #000000
+    FontColor #000000
+    FontSize 12
+}
+
+
+' Layout
+' ##################################
+!unquoted procedure LAYOUT_AS_SKETCH()
+    skinparam backgroundColor #EEEBDC
+    skinparam handwritten true
+    skinparam defaultFontName "Comic Sans MS"
+    center footer <font color=red>Warning:</font> Created for discussion, needs to be validated
+!endprocedure
+!unquoted procedure LAYOUT_TOP_DOWN()
+	top to bottom direction
+!endprocedure
+!unquoted procedure LAYOUT_LEFT_RIGHT()
+	left to right direction
+!endprocedure
+
+' Layout Helpers
+' ##################################
+!unquoted procedure Lay_D(e_from, e_to)
+	e_from -[hidden]D- e_to
+!endprocedure
+!unquoted procedure Lay_U(e_from, e_to)
+	e_from -[hidden]U- e_to
+!endprocedure
+!unquoted procedure Lay_R(e_from, e_to)
+	e_from -[hidden]R- e_to
+!endprocedure
+!unquoted procedure Lay_L(e_from, e_to)
+	e_from -[hidden]L- e_to
+!endprocedure
+
+
+
+' Relationships
+' ##################################
+!unquoted procedure Junction_Or(e_alias, e_label)
+	circle #whitesmoke "e_label" as e_alias
+!endprocedure
+!unquoted procedure Junction_And(e_alias, e_label)
+	circle #black "e_label" as e_alias
+!endprocedure
+
+!unquoted procedure $rel($sourceAlias, $targetAlias, $label, $direction, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
+    $sourceAlias $direction $targetAlias : "$lbl"
+!endprocedure
+
+!unquoted procedure $rel_via($sourceAlias, $targetAlias, $viaAlias, $label, $startDir, $direction, $endDir, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
+
+    !$dirs = %splitstr($direction, "-")
+    !$idx = 0
+    !$curr = $sourceAlias
+    !$len = (%strlen($direction) + 1) / 2
+    !$circleLabel = $len / 2
+    !$lineLabel = ($len + 1) / 2
+
+    !foreach $dir in $dirs
+        !$viaId = $viaAlias + $idx
+        !$txt = "\n"
+        !if ($circleLabel != $lineLabel) && ($idx == $circleLabel)
+            !$txt = $lbl
+        !endif
+
+        circle #lightgray "$txt" as $viaId
+        !$d = "-"
+        !if ($curr == $sourceAlias)
+            !$d = $startDir
+        !endif
+        !$dirStr = $d + $dir + "-"
+
+        !$txt = ""
+        !if ($circleLabel == $lineLabel) && ($idx == $lineLabel)
+            !$txt = $lbl
+        !endif
+        $rel($curr, $viaId, $txt, $dirStr)
+        !$curr = $viaId
+        !$idx = $idx + 1
+    !endfor
+
+    $rel($curr, $targetAlias, "", $endDir)
+!endprocedure
+
+!unquoted procedure Rel__($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel__Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel__Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel__Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel__Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+!unquoted procedure Rel__U($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel__D($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel__L($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel__R($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Composition($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*--", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Aggregation($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o--", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Assignment($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Specialization($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "--|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT-|>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Serving($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Association($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "--", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Flow($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.>>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Realization($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.|>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Triggering($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_r($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<..", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.UP.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.DOWN.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.LEFT.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.RIGHT.", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_rw($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<..>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.UP.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.DOWN.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.LEFT.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.RIGHT.>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_w($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Influence($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+
+' Styling
+' ##################################
+
+skinparam rectangle {
+    Shadowing true
+    RoundCorner 6
+    BorderColor<<ontology-concept>> black
+    BackgroundColor<<ontology-concept>> white
+}
+
+hide <<ontology-concept>> stereotype
+
+' Elements
+' ##################################
+'Ontology Elements
+!unquoted procedure Concept(e_alias, e_label)
+	rectangle "e_label" <<ontology-concept>> as e_alias
+!endprocedure
+
+

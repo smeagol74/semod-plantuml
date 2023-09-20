@@ -1,5 +1,5 @@
 @startuml
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 Customer_Area(A_C, Customer) {
   Customer_Alpha(AO, Oportunity)

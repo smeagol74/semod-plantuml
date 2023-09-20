@@ -37,10 +37,24 @@ hide <<system-enabling>> stereotype
 ' Elements
 ' ##################################
 'System Elements
-!define System_Other(e_alias, e_label) rectangle "e_label" <<system-other>> as e_alias
-!define System_OfInterest(e_alias, e_label) rectangle "e_label" <<system-of-interest>> as e_alias
-!define System_SupraOfInterest(e_alias, e_label) rectangle "e_label" <<system-supra-of-interest>> as e_alias
-!define System_Our(e_alias, e_label) rectangle "e_label" <<system-our>> as e_alias
-!define System_Role(e_alias, e_label) actor "e_label" <<system-role>> as e_alias
-!define System_Placeholder(e_alias, e_label) rectangle "e_label" <<system-placeholder>> as e_alias
-!define System_Enabling(e_alias, e_label) rectangle "e_label" <<system-enabling>> as e_alias
+!unquoted procedure System_Other(e_alias, e_label)
+	rectangle "e_label" <<system-other>> as e_alias
+!endprocedure
+!unquoted procedure System_OfInterest(e_alias, e_label)
+	rectangle "e_label" <<system-of-interest>> as e_alias
+!endprocedure
+!unquoted procedure System_SupraOfInterest(e_alias, e_label)
+	rectangle "e_label" <<system-supra-of-interest>> as e_alias
+!endprocedure
+!unquoted procedure System_Our(e_alias, e_label)
+	rectangle "e_label" <<system-our>> as e_alias
+!endprocedure
+!unquoted procedure System_Role(e_alias, e_label)
+	actor "e_label" <<system-role>> as e_alias
+!endprocedure
+!unquoted procedure System_Placeholder(e_alias, e_label)
+	rectangle "e_label" <<system-placeholder>> as e_alias
+!endprocedure
+!unquoted procedure System_Enabling(e_alias, e_label)
+	rectangle "e_label" <<system-enabling>> as e_alias
+!endprocedure

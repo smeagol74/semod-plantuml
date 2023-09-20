@@ -13,4 +13,6 @@ hide <<ontology-concept>> stereotype
 ' Elements
 ' ##################################
 'Ontology Elements
-!define Concept(e_alias, e_label) rectangle "e_label" <<ontology-concept>> as e_alias
+!unquoted procedure Concept(e_alias, e_label)
+	rectangle "e_label" <<ontology-concept>> as e_alias
+!endprocedure

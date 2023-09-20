@@ -1,6 +1,6 @@
 @startuml
 
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 Concept(C0, 'Понятие 1\n(понятие)') [[http://www.ru]]
 

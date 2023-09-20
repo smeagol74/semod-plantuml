@@ -1,6 +1,6 @@
 @startuml
 
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 frame Generic as FG {
   Alpha(A0, Stakeholder)

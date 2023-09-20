@@ -1,0 +1,662 @@
+' Styling
+' ##################################
+!TECHN_FONT_SIZE = 12
+!ELEMENT_FONT_COLOR = "#FFFFFF"
+
+skinparam defaultTextAlignment center
+skinparam wrapWidth 400
+skinparam maxMessageSize 150
+skinparam StereotypeAlignment right
+
+skinparam Arrow {
+    Color #000000
+    FontColor #000000
+    FontSize 12
+}
+
+
+' Layout
+' ##################################
+!unquoted procedure LAYOUT_AS_SKETCH()
+    skinparam backgroundColor #EEEBDC
+    skinparam handwritten true
+    skinparam defaultFontName "Comic Sans MS"
+    center footer <font color=red>Warning:</font> Created for discussion, needs to be validated
+!endprocedure
+!unquoted procedure LAYOUT_TOP_DOWN()
+	top to bottom direction
+!endprocedure
+!unquoted procedure LAYOUT_LEFT_RIGHT()
+	left to right direction
+!endprocedure
+
+' Layout Helpers
+' ##################################
+!unquoted procedure Lay_D(e_from, e_to)
+	e_from -[hidden]D- e_to
+!endprocedure
+!unquoted procedure Lay_U(e_from, e_to)
+	e_from -[hidden]U- e_to
+!endprocedure
+!unquoted procedure Lay_R(e_from, e_to)
+	e_from -[hidden]R- e_to
+!endprocedure
+!unquoted procedure Lay_L(e_from, e_to)
+	e_from -[hidden]L- e_to
+!endprocedure
+
+
+
+' Relationships
+' ##################################
+!unquoted procedure Junction_Or(e_alias, e_label)
+	circle #whitesmoke "e_label" as e_alias
+!endprocedure
+!unquoted procedure Junction_And(e_alias, e_label)
+	circle #black "e_label" as e_alias
+!endprocedure
+
+!unquoted procedure $rel($sourceAlias, $targetAlias, $label, $direction, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
+    $sourceAlias $direction $targetAlias : "$lbl"
+!endprocedure
+
+!unquoted procedure $rel_via($sourceAlias, $targetAlias, $viaAlias, $label, $startDir, $direction, $endDir, $link="")
+    !if ($link != "")
+        !$lbl = "[[" + $link + " " + $label + "]]"
+    !else
+        !$lbl = $label
+    !endif
+
+    !$dirs = %splitstr($direction, "-")
+    !$idx = 0
+    !$curr = $sourceAlias
+    !$len = (%strlen($direction) + 1) / 2
+    !$circleLabel = $len / 2
+    !$lineLabel = ($len + 1) / 2
+
+    !foreach $dir in $dirs
+        !$viaId = $viaAlias + $idx
+        !$txt = "\n"
+        !if ($circleLabel != $lineLabel) && ($idx == $circleLabel)
+            !$txt = $lbl
+        !endif
+
+        circle #lightgray "$txt" as $viaId
+        !$d = "-"
+        !if ($curr == $sourceAlias)
+            !$d = $startDir
+        !endif
+        !$dirStr = $d + $dir + "-"
+
+        !$txt = ""
+        !if ($circleLabel == $lineLabel) && ($idx == $lineLabel)
+            !$txt = $lbl
+        !endif
+        $rel($curr, $viaId, $txt, $dirStr)
+        !$curr = $viaId
+        !$idx = $idx + 1
+    !endfor
+
+    $rel($curr, $targetAlias, "", $endDir)
+!endprocedure
+
+!unquoted procedure Rel__($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel__Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel__Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel__Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel__Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+!unquoted procedure Rel__U($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel__D($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel__L($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel__R($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Composition($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*--", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Composition_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "*-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Aggregation($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o--", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Aggregation_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "o-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Assignment($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Assignment_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "0-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Specialization($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "--|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT-|>", $link)
+!endprocedure
+!unquoted procedure Rel_Specialization_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT-|>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Serving($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Serving_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+!unquoted procedure Rel_Association($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "--", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT-", $link)
+!endprocedure
+!unquoted procedure Rel_Association_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT-", $link)
+!endprocedure
+
+!unquoted procedure Rel_Flow($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.>>", $link)
+!endprocedure
+!unquoted procedure Rel_Flow_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.>>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Realization($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.|>", $link)
+!endprocedure
+!unquoted procedure Rel_Realization_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.|>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Triggering($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->>", $link)
+!endprocedure
+!unquoted procedure Rel_Triggering_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_r($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<..", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.UP.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.DOWN.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.LEFT.", $link)
+!endprocedure
+!unquoted procedure Rel_Access_r_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.RIGHT.", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_rw($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<..>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.UP.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.DOWN.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.LEFT.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_rw_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "<.RIGHT.>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Access_w($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "..>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".UP.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".DOWN.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".LEFT.>", $link)
+!endprocedure
+!unquoted procedure Rel_Access_w_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, ".RIGHT.>", $link)
+!endprocedure
+
+!unquoted procedure Rel_Influence($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Up($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-UP->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Down($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-DOWN->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Left($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-LEFT->", $link)
+!endprocedure
+!unquoted procedure Rel_Influence_Right($from, $to, $label="", $link="")
+	$rel($from, $to, $label, "-RIGHT->", $link)
+!endprocedure
+
+
+' Archimate-PlantUML
+' Version 0.1
+' Url will come here...
+
+' Styling
+' ##################################
+
+skinparam frame {
+  BorderThickness<<essence_area>> 2
+  RoundCorner<<essence_area>> 25
+  FontColor<<essence_area>> #000000
+
+  BackgroundColor<<essence_generic_area>> #dddddd
+  BorderColor<<essence_generic_area>> #000000
+
+  BackgroundColor<<essence_customer_area>> #c9ffc9
+  BorderColor<<essence_customer_area>> #40a94c
+
+  BackgroundColor<<essence_solution_area>> #ffff99
+  BorderColor<<essence_solution_area>> #ea7502
+
+  BackgroundColor<<essence_endeavor_area>> #c6d9f1
+  BorderColor<<essence_endeavor_area>> #4b6ec6
+}
+
+skinparam boundary {
+  FontColor<<essence_area>> #000000
+}
+
+skinparam package {
+  FontColor<<essence_area>> #000000
+}
+
+<style>
+  .essence_area {
+    title {
+        FontColor #000000
+        FontSize 18
+    }
+  }
+</style>
+
+skinparam rectangle {
+  BackgroundColor<<essence_generic>> #f2f2f2
+  BorderColor<<essence_generic>> #6e6e6e
+  DefaultTextAlignment<<essence_generic>> center
+  RoundCorner<<essence_generic>> 12
+  BorderThickness<<essence_generic>> 2
+  FontColor<<essence_generic>> #000000
+
+  BorderStyle<<essence_optional_level_of_details>> dashed
+  FontColor<<essence_optional_level_of_details>> #000000
+
+  BorderStyle<<essence_activity_space>> dashed
+  FontColor<<essence_activity_space>> #000000
+
+  BackgroundColor<<essence_customer>> #e5ffe5
+  BorderColor<<essence_customer>> #40a94c
+  DefaultTextAlignment<<essence_customer>> center
+  RoundCorner<<essence_customer>> 12
+  BorderThickness<<essence_customer>> 2
+  FontColor<<essence_customer>> #000000
+
+  BackgroundColor<<essence_solution>> #ffffcc
+  BorderColor<<essence_solution>> #ea7502
+  DefaultTextAlignment<<essence_solution>> center
+  RoundCorner<<essence_solution>> 12
+  BorderThickness<<essence_solution>> 2
+  FontColor<<essence_solution>> #000000
+
+  BackgroundColor<<essence_endeavor>> #dce6f2
+  BorderColor<<essence_endeavor>> #4b6ec6
+  DefaultTextAlignment<<essence_endeavor>> center
+  RoundCorner<<essence_endeavor>> 12
+  BorderThickness<<essence_endeavor>> 2
+  FontColor<<essence_endeavor>> #000000
+}
+
+skinparam file {
+  BackgroundColor<<essence_generic>> #f2f2f2
+  BorderColor<<essence_generic>> #6e6e6e
+  BorderThickness<<essence_generic>> 2
+  DefaultTextAlignment<<essence_generic>> center
+  FontColor<<essence_generic>> #000000
+}
+
+skinparam storage {
+  BackgroundColor<<essence_generic>> #f2f2f2
+  BorderColor<<essence_generic>> #6e6e6e
+  BorderThickness<<essence_generic>> 2
+  DefaultTextAlignment<<essence_generic>> center
+  FontColor<<essence_generic>> #000000
+}
+
+sprite $alpha /usr/local/share/semod/sprites/essence/alpha.png
+sprite $kernel /usr/local/share/semod/sprites/essence/kernel_20.png
+sprite $pattern /usr/local/share/semod/sprites/essence/pattern.png
+sprite $state /usr/local/share/semod/sprites/essence/state.png
+sprite $level_of_detail /usr/local/share/semod/sprites/essence/level_of_detail_20.png
+sprite $practice /usr/local/share/semod/sprites/essence/practice.png
+sprite $activity /usr/local/share/semod/sprites/essence/activity.png
+sprite $activity_space /usr/local/share/semod/sprites/essence/activity_space.png
+sprite $competency /usr/local/share/semod/sprites/essence/competency.png
+sprite $resource /usr/local/share/semod/sprites/essence/resource.png
+sprite $work_product /usr/local/share/semod/sprites/essence/work_product.png
+
+sprite $alpha_customer /usr/local/share/semod/sprites/essence/alpha_customer.png
+sprite $activity_customer /usr/local/share/semod/sprites/essence/activity_customer.png
+sprite $activity_space_customer /usr/local/share/semod/sprites/essence/activity_space_customer.png
+sprite $competency_customer /usr/local/share/semod/sprites/essence/competency_customer.png
+sprite $practice_customer /usr/local/share/semod/sprites/essence/practice_customer.png
+sprite $pattern_customer /usr/local/share/semod/sprites/essence/pattern_customer.png
+sprite $resource_customer /usr/local/share/semod/sprites/essence/resource_customer.png
+sprite $work_product_customer /usr/local/share/semod/sprites/essence/work_product_customer.png
+sprite $state_customer /usr/local/share/semod/sprites/essence/state_customer.png
+
+sprite $alpha_solution /usr/local/share/semod/sprites/essence/alpha_solution.png
+sprite $activity_solution /usr/local/share/semod/sprites/essence/activity_solution.png
+sprite $activity_space_solution /usr/local/share/semod/sprites/essence/activity_space_solution.png
+sprite $competency_solution /usr/local/share/semod/sprites/essence/competency_solution.png
+sprite $practice_solution /usr/local/share/semod/sprites/essence/practice_solution.png
+sprite $pattern_solution /usr/local/share/semod/sprites/essence/pattern_solution.png
+sprite $resource_solution /usr/local/share/semod/sprites/essence/resource_solution.png
+sprite $work_product_solution /usr/local/share/semod/sprites/essence/work_product_solution.png
+sprite $state_solution /usr/local/share/semod/sprites/essence/state_solution.png
+
+sprite $alpha_endeavor /usr/local/share/semod/sprites/essence/alpha_endeavor.png
+sprite $activity_endeavor /usr/local/share/semod/sprites/essence/activity_endeavor.png
+sprite $activity_space_endeavor /usr/local/share/semod/sprites/essence/activity_space_endeavor.png
+sprite $competency_endeavor /usr/local/share/semod/sprites/essence/competency_endeavor.png
+sprite $practice_endeavor /usr/local/share/semod/sprites/essence/practice_endeavor.png
+sprite $pattern_endeavor /usr/local/share/semod/sprites/essence/pattern_endeavor.png
+sprite $resource_endeavor /usr/local/share/semod/sprites/essence/resource_endeavor.png
+sprite $work_product_endeavor /usr/local/share/semod/sprites/essence/work_product_endeavor.png
+sprite $state_endeavor /usr/local/share/semod/sprites/essence/state_endeavor.png
+
+hide <<essence_generic>><<essence_work_product>> stereotype
+hide <<essence_generic>> <<essence_work_product>> stereotype
+hide <<essence_area>><<essence_generic_area>> stereotype
+hide <<essence_area>> <<essence_generic_area>> stereotype
+hide <<essence_area>><<essence_customer_area>> stereotype
+hide <<essence_area>> <<essence_customer_area>> stereotype
+hide <<essence_area>><<essence_solution_area>> stereotype
+hide <<essence_area>> <<essence_solution_area>> stereotype
+hide <<essence_area>><<essence_endeavor_area>> stereotypes
+hide <<essence_area>> <<essence_endeavor_area>> stereotypes
+hide <<essence_generic>><<essence_pattern_association>> stereotype
+hide <<essence_generic>> <<essence_pattern_association>> stereotype
+
+!unquoted procedure $rectangle($alias, $label, $icon="", $class="", $link="")
+    rectangle "$label" <<$icon>> $class as $alias
+    !if ($link != "")
+        url of $alias is [[$link]]
+    !endif
+!endprocedure
+
+' Elements
+' ##################################
+
+' Generic Elements
+!unquoted procedure Alpha($alias, $label, $link="")
+	$rectangle($alias, $label, $alpha, <<essence_generic>> <<essence_alpha>>, $link)
+!endprocedure
+!unquoted procedure Kernel($alias, $label, $link="")
+	$rectangle($alias, $label, $kernel, <<essence_generic>> <<essence_kernel>>, $link)
+!endprocedure
+!unquoted procedure AlphaState($alias, $label, $link="")
+	$rectangle($alias, $label, $state, <<essence_generic>> <<essence_alpha_state>>, $link)
+!endprocedure
+!unquoted procedure WorkProduct($alias, $label, $link="")
+	$rectangle($alias, $label, $work_product, <<essence_generic>> <<essence_work_product>>, $link)
+!endprocedure
+!unquoted procedure LevelOfDetail($alias, $label, $link="")
+	$rectangle($alias, $label, $level_of_detail, <<essence_generic>> <<essence_level_of_details>>, $link)
+!endprocedure
+!unquoted procedure OptionalLevelOfDetail($alias, $label, $link="")
+	$rectangle($alias, $label, $level_of_detail, <<essence_generic>> <<essence_optional_level_of_details>>, $link)
+!endprocedure
+!unquoted procedure Practice($alias, $label, $link="")
+	$rectangle($alias, $label, $practice, <<essence_generic>> <<essence_practice>>, $link)
+!endprocedure
+!unquoted procedure Activity($alias, $label, $link="")
+	$rectangle($alias, $label, $activity, <<essence_generic>> <<essence_activity>>, $link)
+!endprocedure
+!unquoted procedure ActivitySpace($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_space, <<essence_generic>> <<essence_activity_space>>, $link)
+!endprocedure
+!unquoted procedure Competency($alias, $label, $link="")
+	$rectangle($alias, $label, $competency, <<essence_generic>> <<essence_competency>>, $link)
+!endprocedure
+!unquoted procedure Pattern($alias, $label, $link="")
+	$rectangle($alias, $label, $pattern, <<essence_generic>> <<essence_pattern>>, $link)
+!endprocedure
+!unquoted procedure PatternAssociation($alias, $label, $link="")
+	$rectangle($alias, $label, $pattern_association, <<essence_generic>> <<essence_pattern_association>>, $link)
+!endprocedure
+!unquoted procedure Resource($alias, $label, $link="")
+	$rectangle($alias, $label, $resource, <<essence_generic>> <<essence_resource>>, $link)
+!endprocedure
+
+' Areas of Concern
+!unquoted procedure Area($alias, $label)
+	frame "$label" <<essence_area>> <<essence_generic_area>> as $alias
+!endprocedure
+!unquoted procedure Customer_Area($alias, $label)
+	frame "$label" <<essence_area>> <<essence_customer_area>> as $alias
+!endprocedure
+!unquoted procedure Solution_Area($alias, $label)
+	frame "$label" <<essence_area>> <<essence_solution_area>> as $alias
+!endprocedure
+!unquoted procedure Endeavor_Area($alias, $label)
+	frame "$label" <<essence_area>> <<essence_endeavor_area>> as $alias
+!endprocedure
+
+' Customer Area of Concern
+!unquoted procedure Customer_Alpha($alias, $label, $link="")
+	$rectangle($alias, $label, $alpha_customer, <<essence_customer>> <<essence_customer_alpha>>, $link)
+!endprocedure
+!unquoted procedure Customer_AlphaState($alias, $label, $link="")
+	$rectangle($alias, $label, $state_customer, <<essence_customer>> <<essence_customer_alpha_state>>, $link)
+!endprocedure
+!unquoted procedure Customer_Activity($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_customer, <<essence_customer>> <<essence_customer_activity>>, $link)
+!endprocedure
+!unquoted procedure Customer_ActivitySpace($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_space_customer, <<essence_customer>> <<essence_customer_activity_space>>, $link)
+!endprocedure
+!unquoted procedure Customer_Competency($alias, $label, $link="")
+	$rectangle($alias, $label, $competency_customer, <<essence_customer>> <<essence_customer_competency>>, $link)
+!endprocedure
+!unquoted procedure Customer_Practice($alias, $label, $link="")
+	$rectangle($alias, $label, $practice_customer, <<essence_customer>> <<essence_customer_practice>>, $link)
+!endprocedure
+!unquoted procedure Customer_Pattern($alias, $label, $link="")
+	$rectangle($alias, $label, $pattern_customer, <<essence_customer>> <<essence_customer_pattern>>, $link)
+!endprocedure
+!unquoted procedure Customer_Resource($alias, $label, $link="")
+	$rectangle($alias, $label, $resource_customer, <<essence_customer>> <<essence_customer_resource>>, $link)
+!endprocedure
+!unquoted procedure Customer_WorkProduct($alias, $label, $link="")
+	$rectangle($alias, $label, $work_product_customer, <<essence_customer>> <<essence_customer_work_product>>, $link)
+!endprocedure
+
+' Solution Area of Concern
+!unquoted procedure Solution_Alpha($alias, $label, $link="")
+	$rectangle($alias, $label, $alpha_solution, <<essence_solution>> <<essence_solution_alpha>>, $link)
+!endprocedure
+!unquoted procedure Solution_AlphaState($alias, $label, $link="")
+	$rectangle($alias, $label, $state_solution, <<essence_solution>> <<essence_solution_alpha_state>>, $link)
+!endprocedure
+!unquoted procedure Solution_Activity($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_solution, <<essence_solution>> <<essence_solution_activity>>, $link)
+!endprocedure
+!unquoted procedure Solution_ActivitySpace($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_space_solution, <<essence_solution>> <<essence_solution_activity_space>>, $link)
+!endprocedure
+!unquoted procedure Solution_Competency($alias, $label, $link="")
+	$rectangle($alias, $label, $competency_solution, <<essence_solution>> <<essence_solution_competency>>, $link)
+!endprocedure
+!unquoted procedure Solution_Practice($alias, $label, $link="")
+	$rectangle($alias, $label, $practice_solution, <<essence_solution>> <<essence_solution_practice>>, $link)
+!endprocedure
+!unquoted procedure Solution_Pattern($alias, $label, $link="")
+	$rectangle($alias, $label, $pattern_solution, <<essence_solution>> <<essence_solution_pattern>>, $link)
+!endprocedure
+!unquoted procedure Solution_Resource($alias, $label, $link="")
+	$rectangle($alias, $label, $resource_solution, <<essence_solution>> <<essence_solution_resource>>, $link)
+!endprocedure
+!unquoted procedure Solution_WorkProduct($alias, $label, $link="")
+	$rectangle($alias, $label, $work_product_solution, <<essence_solution>> <<essence_solution_work_product>>, $link)
+!endprocedure
+
+' Endeavor Area of Concern
+!unquoted procedure Endeavor_Alpha($alias, $label, $link="")
+	$rectangle($alias, $label, $alpha_endeavor, <<essence_endeavor>> <<essence_endeavor_alpha>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_AlphaState($alias, $label, $link="")
+	$rectangle($alias, $label, $state_endeavor, <<essence_endeavor>> <<essence_endeavor_alpha_state>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_Activity($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_endeavor, <<essence_endeavor>> <<essence_endeavor_activity>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_ActivitySpace($alias, $label, $link="")
+	$rectangle($alias, $label, $activity_space_endeavor, <<essence_endeavor>> <<essence_endeavor_activity_space>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_Competency($alias, $label, $link="")
+	$rectangle($alias, $label, $competency_endeavor, <<essence_endeavor>> <<essence_endeavor_competency>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_Practice($alias, $label, $link="")
+	$rectangle($alias, $label, $practice_endeavor, <<essence_endeavor>> <<essence_endeavor_practice>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_Pattern($alias, $label, $link="")
+	$rectangle($alias, $label, $pattern_endeavor, <<essence_endeavor>> <<essence_endeavor_pattern>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_Resource($alias, $label, $link="")
+	$rectangle($alias, $label, $resource_endeavor, <<essence_endeavor>> <<essence_endeavor_resource>>, $link)
+!endprocedure
+!unquoted procedure Endeavor_WorkProduct($alias, $label, $link="")
+	$rectangle($alias, $label, $work_product_endeavor, <<essence_endeavor>> <<essence_endeavor_work_product>>, $link)
+!endprocedure
+
+

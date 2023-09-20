@@ -1,0 +1,4 @@
+!include _theme.iuml
+!include _layout.iuml
+!include _relationships.iuml
+!include _ontology.iuml

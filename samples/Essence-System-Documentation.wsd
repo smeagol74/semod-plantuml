@@ -1,5 +1,5 @@
 @startuml
-!include ../src/semod.puml
+!include ../src/semod.iuml
 
 WorkProduct(ModelDocumentation, Докуменатция\nмодели)
 WorkProduct(RoleDocumentation, Ролевая\nдокументация)
